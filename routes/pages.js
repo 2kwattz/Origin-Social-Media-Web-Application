@@ -12,4 +12,11 @@ router.get("/", async function (req, res) {
     res.render("index");
 })
 
+router.get("/login", async function(req,res){
+    res.render("login");
+})
+
+router.get("writeBlog", async function(req,res){
+    res.render("writeblog");
+})
 module.exports = router;

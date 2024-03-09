@@ -1,0 +1,12 @@
+/* CSS RESET */
+
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+button a{
+    text-decoration: none;
+    color: black;
+}
