@@ -16,12 +16,25 @@ const multer = require('multer')
 app.use(cookieParser());
 const cors = require('cors'); // Cross Enviornment
 const storage = multer.memoryStorage();
+// Enable CORS
+app.use(cors());
+
+// To get form data
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use('/', require('../routes/pages'));
+
+// Security Middleware
+const helmet = require('helmet');
+app.use(helmet()); // Setting Security Headers
 
 // Paths
 const staticPath = path.join(__dirname, "../public");
 const templatePath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
 const messagePath = path.join(__dirname, "../dev-data/messages");
+const routesPath = path.join(__dirname, "../routes");
 
 app.set('view engine', 'hbs');
 app.set('views', templatePath);
@@ -33,6 +46,10 @@ hbs.registerPartials(partialsPath);
 // Register the 'eq' helper
 hbs.registerHelper('eq', function (a, b) {
     return a === b;
+  });
+
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
   });
 
   
