@@ -10,6 +10,7 @@ const compression = require("compression"); // Optimizer
 const http = require('http').Server(app); // http request maker
 const nodemon = require('nodemon'); // For Server Restart 
 const multer = require('multer')
+const port = 8080;
 
 // Middlewares
 
