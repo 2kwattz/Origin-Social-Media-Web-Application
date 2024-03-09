@@ -9,8 +9,20 @@ const path = require('path');
 const compression = require("compression"); // Optimizer
 const http = require('http').Server(app); // http request maker
 const nodemon = require('nodemon'); // For Server Restart 
-const multer = require('multer')
+const multer = require('multer');
+
+// Database
+const mongoose = require('mongoose');
 const port = 8080;
+
+// Database Schemas
+
+const blogSchema = new mongoose.Schema({
+  id: Number,
+  title: String,
+  content: String,
+
+});
 
 // Middlewares
 

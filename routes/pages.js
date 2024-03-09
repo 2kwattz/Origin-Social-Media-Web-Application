@@ -16,7 +16,13 @@ router.get("/login", async function(req,res){
     res.render("login");
 })
 
-router.get("writeBlog", async function(req,res){
+router.get("/writeblog", async function(req,res){
     res.render("writeblog");
+})
+
+router.post("writeblog", async function(req,res){
+    const blogTitle = req.body.blogTitle;
+
+    
 })
 module.exports = router;

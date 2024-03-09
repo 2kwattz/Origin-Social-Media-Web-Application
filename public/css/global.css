@@ -10,3 +10,10 @@ button a{
     text-decoration: none;
     color: black;
 }
+
+.btn{
+    background-color: lightcoral;
+    border: none;
+    border-radius: 12px;
+    padding: 0.7rem;
+}
