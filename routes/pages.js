@@ -16,6 +16,13 @@ router.get("/login", async function(req,res){
     res.render("login");
 })
 
+router.post("/login", async function(req,res){
+    console.log(req);
+    const emailAddress = req.body.email;
+    const password = req.body.password;
+    
+})
+
 router.get("/writeblog", async function(req,res){
     res.render("writeblog");
 })
