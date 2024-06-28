@@ -12,22 +12,25 @@ router.get("/", async function (req, res) {
     res.render("index");
 })
 
-router.get("/login", async function(req,res){
-    res.render("login");
+router.get("/account/login", async function(req,res){
+    res.render("account/login");
 })
 
-router.post("/login", async function(req,res){
+router.post("account/login", async function(req,res){
     console.log(req);
     const emailAddress = req.body.email;
     const password = req.body.password;
-    
 })
 
-router.get("/writeblog", async function(req,res){
+router.get("/account/register", async function(req,res){
+    res.render("account/register")
+})
+
+router.get("/blog/writeblog", async function(req,res){
     res.render("writeblog");
 })
 
-router.post("writeblog", async function(req,res){
+router.post("/blog/writeblog", async function(req,res){
     const blogTitle = req.body.blogTitle;
 
     
