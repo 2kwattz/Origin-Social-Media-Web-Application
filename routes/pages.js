@@ -24,10 +24,21 @@ router.get("/account/login", async function(req,res){
     res.render("account/login");
 })
 
-router.post("account/login", async function(req,res){
+router.post("/account/login", async function(req,res){
     console.log(req);
     const emailAddress = req.body.email;
     const password = req.body.password;
+
+    try{
+        const emailValidation = await RegisterUser.findOne({userEmail:emailAddress});
+        console.log("Inside email verification try block")
+        console.log(emailValidation)
+    }
+    catch(error){
+        console.log(error)
+    }
+
+
 })
 
 router.get("/account/register", async function(req,res){
