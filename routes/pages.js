@@ -6,6 +6,14 @@ const app = express(); // Instance of Express
 const path = require('path'); // Defines Static Path and Temp
 const router = express.Router();
 
+// Database Schemas
+
+
+const RegisterUser = require("../src/models/registerUser")
+
+
+
+
 app.use(cookieParser());
 
 router.get("/", async function (req, res) {
@@ -31,8 +39,34 @@ router.post("/account/register", async function(req,res){
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword;
 
-        password===confirmPassword?res.send("Password Matching"):res.send("Passwords Do not match")
+        if(password===confirmPassword){
 
+            const registerUserAccount = new RegisterUser({
+                userFirstName: req.body.firstName,
+                userLastName: req.body.lastName,
+                userEmail: req.body.emailAddress,
+                userPassword: password,
+                userConfirmPassword: confirmPassword,
+                userGender: req.body.gender,
+                // userCity: req.body.city,
+                // userState: req.body.state,
+                // userCountry: req.body.country,
+                // userSecurityQuestionAnswer: req.body.securityQuestionAnswer,
+            })
+
+            const registered = await registerUserAccount.save()
+
+            if(registered){
+                res.render("index")
+            }
+            else{
+                res.send("Registering Error")
+            }
+        }
+        else{
+            res.send("Passwords Do Not Match")
+
+        }
     }
     catch(error){
         console.log(error)
