@@ -14,6 +14,7 @@ const multer = require('multer');
 // Database
 const mongoose = require('mongoose');
 require("./db/conn")
+const RegisterUser = require("./models/registerUser")
 const port = 80 ||  process.env.PORT;
 
 // Database Schemas
