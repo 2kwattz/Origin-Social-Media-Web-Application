@@ -13,16 +13,11 @@ const multer = require('multer');
 
 // Database
 const mongoose = require('mongoose');
-const port = 8080;
+require("./db/conn")
+const port = 80 ||  process.env.PORT;
 
 // Database Schemas
 
-const blogSchema = new mongoose.Schema({
-  id: Number,
-  title: String,
-  content: String,
-
-});
 
 // Middlewares
 
