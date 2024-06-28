@@ -6,6 +6,12 @@
     padding: 0px;
 }
 
+.navbar{
+padding: 10px;
+background-color: lightblue;
+margin-bottom: 50px;
+}
+
 button a{
     text-decoration: none;
     color: black;
