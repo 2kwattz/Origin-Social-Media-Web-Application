@@ -26,6 +26,19 @@ router.get("/account/register", async function(req,res){
     res.render("account/register")
 })
 
+router.post("/account/register", async function(req,res){
+    try{
+        const password = req.body.password;
+        const confirmPassword = req.body.confirmPassword;
+
+        password===confirmPassword?res.send("Password Matching"):res.send("Passwords Do not match")
+
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+
 router.get("/blog/writeblog", async function(req,res){
     res.render("writeblog");
 })
