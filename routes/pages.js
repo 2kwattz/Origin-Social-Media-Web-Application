@@ -30,12 +30,19 @@ router.post("/account/login", async function(req,res){
     const password = req.body.password;
 
     try{
-        const emailValidation = await RegisterUser.findOne({userEmail:emailAddress});
-        console.log("Inside email verification try block")
-        console.log(emailValidation)
+        const verifiedEmail = await RegisterUser.findOne({userEmail:emailAddress});
+
+        if(verifiedEmail.password === password){
+            res.status(201).render("index");
+        }
+        else{
+            res.render("Credentials are not matching")
+        }
+        console.log(verifiedEmail)
     }
     catch(error){
         console.log(error)
+        res.render("Credentials are not matching")
     }
 
 
@@ -68,7 +75,7 @@ router.post("/account/register", async function(req,res){
             const registered = await registerUserAccount.save()
 
             if(registered){
-                res.render("index")
+                res.status(201).render("index")
             }
             else{
                 res.send("Registering Error")
