@@ -5,16 +5,12 @@ const express = require('express'); // Express Framework
 const app = express(); // Instance of Express
 const path = require('path'); // Defines Static Path and Temp
 const router = express.Router();
-
+const bcrypt = require('bcrypt');
 
 // Database Schemas
 
 
 const RegisterUser = require("../src/models/registerUser")
-
-
-
-
 app.use(cookieParser());
 
 router.get("/", async function (req, res) {
@@ -25,16 +21,17 @@ router.get("/account/login", async function(req,res){
     res.render("account/login");
 })
 
-router.post("/account/login", async function(req,res){
+router.post("/account/login", async function(req,res){      
     console.log(req);
     const emailAddress = req.body.email;
     const password = req.body.password;
 
     try{
         const verifiedEmail = await RegisterUser.findOne({userEmail:emailAddress});
+        const isMatch = bcrypt.compare(password,verifiedEmail.userPassword)
 
-        if(verifiedEmail.password === password){
-            res.status(201).render("index");
+        if(isMatch){
+            res.status(201).render("index"); 
         }
         else{
             res.render("Credentials are not matching")
@@ -43,7 +40,7 @@ router.post("/account/login", async function(req,res){
     }
     catch(error){
         console.log(error)
-        res.render("Credentials are not matching")
+        res.send("Invalid Email or password")
     }
 
 
