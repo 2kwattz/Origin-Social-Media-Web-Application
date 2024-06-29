@@ -10,15 +10,23 @@ const compression = require("compression"); // Optimizer
 const http = require('http').Server(app); // http request maker
 const nodemon = require('nodemon'); // For Server Restart 
 const multer = require('multer');
+const port = 80 ||  process.env.PORT;
 
 // Database
 const mongoose = require('mongoose');
 require("./db/conn")
-const RegisterUser = require("./models/registerUser")
-const port = 80 ||  process.env.PORT;
 
 // Database Schemas
+const RegisterUser = require("./models/registerUser")
+const jwt = require("jsonwebtoken")
 
+// JWT Token Generation
+
+const createToken = async() => {
+  const token = await jwt.sign({_id:"668042780026b6991062fe9c"}, "random_secret_key_making_sure_its_more_than_32chars_long")
+  expiresIn:"15 minutes"
+}
+createToken()
 
 // Middlewares
 
