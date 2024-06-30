@@ -6,10 +6,44 @@
     padding: 0px;
 }
 
-.navbar{
-padding: 10px;
-background-color: lightblue;
+/* Colors */
+
+/* Utility Class */
+
+/*  Buttons */
+
+.btn-black-med{
+background-color: black;
+color: white;
+padding: 5px;
+font-size: 0.8rem;
+border-radius: 70px;
+}
+
+
+.header{
+padding: 5px;
 margin-bottom: 50px;
+display: flex;
+flex-direction: row;
+border: 1px solid black;
+width: 100%;
+justify-content: space-between;
+align-items: center;
+padding-left: 30px;
+padding-right: 30px;
+}
+
+.navbar-list-items{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+align-items: center;
+gap: 15px;
+}
+
+.navbar-list-items li{
+margin: 9px,
 }
 
 button a{
