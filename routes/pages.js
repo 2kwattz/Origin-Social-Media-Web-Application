@@ -115,6 +115,10 @@ router.post("/writeblog", async function(req,res){
 // Logout
 router.get("/logout", auth, async function(req,res){
     try{
+
+        req.user.tokens = req.user.tokens.filter((currentElement)=>{
+            return currentElement.token !== req.token  
+        })
         res.clearCookie("jwt")
         console.log("Logout Successfull")
         await req.user.save()
@@ -123,7 +127,23 @@ router.get("/logout", auth, async function(req,res){
     catch (error){
         res.status(500).send(error)
     }
-
 })
+
+// Logout from all devices
+
+router.get("/logout", auth, async function(req,res){
+    try{
+
+        req.user.tokens = []
+        res.clearCookie("jwt")
+        console.log("Logout from all devices Successfull")
+        await req.user.save()
+        res.render("account/login")
+    }
+    catch (error){
+        res.status(500).send(error)
+    }
+})
+
 
 module.exports = router;
