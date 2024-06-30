@@ -71,6 +71,7 @@ userSchema.pre("save", async function(next){
         this.userPassword = await bcrypt.hash(this.userPassword, 10);  
         this.userConfirmPassword = undefined
     }
+    this.userConfirmPassword = undefined
     next()
 })
 
