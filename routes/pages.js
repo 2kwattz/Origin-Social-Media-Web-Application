@@ -5,7 +5,8 @@ const express = require('express'); // Express Framework
 const app = express(); // Instance of Express
 const path = require('path'); // Defines Static Path and Temp
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // For hashing password
+const auth = require("../middleware/auth")
 
 // Database Schemas
 
