@@ -131,10 +131,12 @@ router.get("/logout", auth, async function(req,res){
 
 // Logout from all devices
 
-router.get("/logout", auth, async function(req,res){
+router.get("/logoutall", auth, async function(req,res){
     try{
 
-        req.user.tokens = []
+        console.log(req.user)
+
+        req.user.userTokens = []
         res.clearCookie("jwt")
         console.log("Logout from all devices Successfull")
         await req.user.save()
