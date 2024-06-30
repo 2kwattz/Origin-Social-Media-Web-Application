@@ -10,6 +10,8 @@ const compression = require("compression"); // Optimizer
 const http = require('http').Server(app); // http request maker
 const nodemon = require('nodemon'); // For Server Restart 
 const multer = require('multer');
+const cors = require('cors'); // Cross Enviornment
+const storage = multer.memoryStorage();
 const port = 80 ||  process.env.PORT;
 
 // Database
@@ -31,8 +33,6 @@ createToken()
 // Middlewares
 
 app.use(cookieParser());
-const cors = require('cors'); // Cross Enviornment
-const storage = multer.memoryStorage();
 // Enable CORS
 app.use(cors());
 

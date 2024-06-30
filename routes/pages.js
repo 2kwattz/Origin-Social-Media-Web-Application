@@ -28,10 +28,14 @@ router.post("/account/login", async function(req,res){
 
     try{
         const verifiedEmail = await RegisterUser.findOne({userEmail:emailAddress});
-        const isMatch = bcrypt.compare(password,verifiedEmail.userPassword)
+        
+        if(verifiedEmail){
+            const isMatch = bcrypt.compare(password,verifiedEmail.userPassword)
 
-        if(isMatch){
-            res.status(201).render("index"); 
+            if(isMatch){
+                const token = await verifiedEmail.generateAuthtoken()
+                res.status(201).render("index"); 
+            }
         }
         else{
             res.render("Credentials are not matching")

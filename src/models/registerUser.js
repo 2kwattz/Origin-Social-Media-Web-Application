@@ -1,5 +1,8 @@
 const mongoose = require("mongoose")
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken")
+
+const secret_key = "just_a_random_32bits_secret_key_used_for_jwt_token_authentication"
 
 
 const userSchema = new mongoose.Schema({
@@ -59,10 +62,21 @@ userSchema.pre("save", async function(next){
         this.userPassword = await bcrypt.hash(this.userPassword, 10);  
         this.userConfirmPassword = undefined
     }
-
     next()
-        
 })
+
+userSchema.methods.generateAuthtoken = async function(){
+try{
+    let token = jwt.sign({_id:this._id,secret_key},{
+        expiresIn: "1h"
+    })
+}
+
+catch(error){
+    console.log(error)
+    res.send("Error while generating JWT token")
+}
+}
 
 const RegisterUser = new mongoose.model("Register", userSchema)
 
