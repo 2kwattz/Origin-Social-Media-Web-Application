@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
 
     userConfirmPassword:{
         type:String,
-        required: true,
     },
 
     userGender: {

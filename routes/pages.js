@@ -36,7 +36,7 @@ router.post("/account/login", async function(req,res){
             if(isMatch){
                 const token = await verifiedEmail.generateAuthtoken()
                 console.log(`JWT Token Generated ${token}`)
-                res.cookie("usercookie", token,{
+                res.cookie("jwt", token,{
                     expires:new Date(Date.now()+9000000),
                     httpOnly: true
                 })
@@ -99,13 +99,31 @@ router.post("/account/register", async function(req,res){
     }
 })
 
-router.get("/blog/writeblog", async function(req,res){
-    res.render("writeblog");
+router.get("/writeblog", async function(req,res){
+    res.render("/blog/writeblog");
 })
 
-router.post("/blog/writeblog", async function(req,res){
+router.post("/writeblog", async function(req,res){
     const blogTitle = req.body.blogTitle;
+    res.render("/blog/writeblog");s
 
     
 })
+
+// Authentication Routes
+
+// Logout
+router.get("/logout", auth, async function(req,res){
+    try{
+        res.clearCookie("jwt")
+        console.log("Logout Successfull")
+        await req.user.save()
+        res.render("account/login")
+    }
+    catch (error){
+        res.status(500).send(error)
+    }
+
+})
+
 module.exports = router;
