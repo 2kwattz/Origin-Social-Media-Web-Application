@@ -54,6 +54,15 @@ const userSchema = new mongoose.Schema({
         type:String
 
     },
+
+    userTokens:[
+        {
+            token:{
+                type:String,
+                required:true,
+            }
+        }
+    ]
 })
 
 userSchema.pre("save", async function(next){
@@ -66,15 +75,20 @@ userSchema.pre("save", async function(next){
 })
 
 userSchema.methods.generateAuthtoken = async function(){
+
 try{
-    let token = jwt.sign({_id:this._id,secret_key},{
-        expiresIn: "1h"
-    })
+    let jwtToken = jwt.sign({_id:this._id},secret_key,{
+        expiresIn: "1d"
+    });
+
+    this.userTokens = this.userTokens.concat({token:jwtToken})
+    await this.save();
+    return jwtToken;
 }
 
 catch(error){
     console.log(error)
-    res.send("Error while generating JWT token")
+   
 }
 }
 

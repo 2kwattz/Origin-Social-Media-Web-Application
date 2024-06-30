@@ -34,6 +34,10 @@ router.post("/account/login", async function(req,res){
 
             if(isMatch){
                 const token = await verifiedEmail.generateAuthtoken()
+                console.log(`JWT Token Generated ${token}`)
+                res.cookie("usercookie", token,{
+                    expires:"1h"
+                })
                 res.status(201).render("index"); 
             }
         }
