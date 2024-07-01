@@ -1,17 +1,18 @@
 const mongoose = require("mongoose")
+const commentsSchema = require("../blogposts/comments")
 
 const BlogPostSchema = new mongoose.Schema({
 
     blogTitle:{
         type: String,
-        required: True,
-        trim: True,
+        required: true,
+        trim: true,
     },
 
     blogSubheading:{
         type: String,
-        required: True,
-        trim: True,
+        required: true,
+        trim: true,
     },
 
     blogAuthor: {
@@ -22,8 +23,8 @@ const BlogPostSchema = new mongoose.Schema({
 
     blogContent:{
         type: String,
-        required: True,
-        trim: True,
+        required: true,
+        trim: true,
     },
 
     blogStatus: {
@@ -62,7 +63,7 @@ const BlogPostSchema = new mongoose.Schema({
         required: false
     },
 
-    blogComments: [CommentsSchema],
+    // blogComments: [commentsSchema],
 
     tags: {
         type: [String], // Array of strings for tags

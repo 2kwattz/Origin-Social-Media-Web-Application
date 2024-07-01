@@ -10,8 +10,9 @@ const auth = require("../middleware/auth")
 
 // Database Schemas
 
-
 const RegisterUser = require("../src/models/registerUser")
+const BlogPostsModel = require("../src/models/blogposts/blogposts")
+
 app.use(cookieParser());
 
 router.get("/", async function (req, res) {
