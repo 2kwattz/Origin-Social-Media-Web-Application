@@ -101,13 +101,57 @@ router.post("/account/register", async function(req,res){
     }
 })
 
-router.get("/blog/writeblog", async function(req,res){
+router.get("/blog/writeblog",auth, async function(req,res){
     res.render("blog/writeblog");
 })
 
-router.post("/blog/writeblog", async function(req,res){
+router.post("/blog/writeblog", auth, async function(req,res){
     const blogTitle = req.body.blogTitle;
+    const blogSubheading = req.body.blogSubheading;
+    const blogContent = req.body.blogContent;
+    const blogStatus = "Published";
+    const blogAuthor = req.user._id;
+
+    new BlogPostsModel({
+        blogTitle,
+        blogSubheading,
+        blogContent,
+        blogStatus,
+        blogAuthor,  
+        })
+  .save()
+  .then(doc => {
+    console.log('Blog post saved:', doc);
+  })
+  .catch(err => {
+
+      console.error('Error:', err);
+    }
+  );
+
     res.render("blog/writeblog");
+})
+
+// Blog Template 
+
+router.get("/blog/:slug", async function(req,res){
+    const slug = req.params.slug
+    try{
+        const blogPost = await BlogPostsModel.findOne({ slug })
+        console.log(blogPost)
+        const blogPostUrl = `/blog/${slug}`;
+        if (!blogPost) {
+            // Handle non-existent slug (e.g., 404 Not Found)
+            return res.status(404).send("Blog post not found");
+          }
+          res.render("blog/blogTemplate", { blogPost })
+        
+
+    }
+    catch(error){
+        res.send(error)
+    }
+    
 })
 
 // Authentication Routes

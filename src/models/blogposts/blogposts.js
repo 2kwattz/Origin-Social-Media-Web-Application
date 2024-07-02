@@ -9,6 +9,7 @@ const BlogPostSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        unique: false,
     },
 
     blogSubheading: {
@@ -31,7 +32,7 @@ const BlogPostSchema = new mongoose.Schema({
 
     blogStatus: {
         type: String,
-        enum: ['draft', 'published'],
+        enum: ['Draft', 'Published'],
         default: 'draft',
     },
 
