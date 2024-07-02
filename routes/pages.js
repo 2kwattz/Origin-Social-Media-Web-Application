@@ -7,6 +7,7 @@ const path = require('path'); // Defines Static Path and Temp
 const router = express.Router();
 const bcrypt = require('bcrypt'); // For hashing password
 const auth = require("../middleware/auth")
+const slugify = require('slugify'); // For URL Friendly Unique String Generation
 
 // Database Schemas
 
@@ -100,15 +101,13 @@ router.post("/account/register", async function(req,res){
     }
 })
 
-router.get("/writeblog", async function(req,res){
-    res.render("/blog/writeblog");
+router.get("/blog/writeblog", async function(req,res){
+    res.render("blog/writeblog");
 })
 
-router.post("/writeblog", async function(req,res){
+router.post("/blog/writeblog", async function(req,res){
     const blogTitle = req.body.blogTitle;
-    res.render("/blog/writeblog");s
-
-    
+    res.render("blog/writeblog");
 })
 
 // Authentication Routes

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose")
 const commentsSchema = require("../blogposts/comments")
+const uniqueValidator = require('mongoose-unique-validator');
+const slugify = require('slugify'); // For URL Friendly Unique String Generation
 
 const BlogPostSchema = new mongoose.Schema({
 

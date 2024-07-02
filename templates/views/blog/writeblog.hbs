@@ -7,11 +7,11 @@
     <title>Write Blog</title>
 </head>
 <body>
-    <form action="/writeblog" method="POST">
-    <input type="text" name="blogTitle">
-    <textarea name="blogMessage" placeholder="Your daily suvichar board is here">
+    <form action="/blog/writeblog" method="POST">
+    <input type="text" name="blogTitle" placeholder="Enter Blog Title">
+    <input type="text" name="blogSubtitle" placeholder="Enter Blog Subtitle">
+    <textarea name="blogMessage" placeholder="Your daily suvichar board is here"></textarea>
 
-    </textarea>
 
     <button class="btn" type="submit"> Create Blog </button>
     </form>
