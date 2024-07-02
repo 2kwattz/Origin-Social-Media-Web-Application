@@ -5,13 +5,13 @@ const slugify = require('slugify'); // For URL Friendly Unique String Generation
 
 const BlogPostSchema = new mongoose.Schema({
 
-    blogTitle:{
+    blogTitle: {
         type: String,
         required: true,
         trim: true,
     },
 
-    blogSubheading:{
+    blogSubheading: {
         type: String,
         required: true,
         trim: true,
@@ -23,7 +23,7 @@ const BlogPostSchema = new mongoose.Schema({
         required: true
     },
 
-    blogContent:{
+    blogContent: {
         type: String,
         required: true,
         trim: true,
@@ -31,7 +31,7 @@ const BlogPostSchema = new mongoose.Schema({
 
     blogStatus: {
         type: String,
-        enum: ['draft','published'],
+        enum: ['draft', 'published'],
         default: 'draft',
     },
 
@@ -40,27 +40,27 @@ const BlogPostSchema = new mongoose.Schema({
         required: false
     },
 
-    blogViews:{
+    blogViews: {
         type: Number,
         default: 0,
     },
 
-    blogLikes:{
-        type:Number,
+    blogLikes: {
+        type: Number,
         default: 0,
     },
 
     BlogImage1: {
         type: String,
         required: false
-      },
-    
-    BlogImage2:{
+    },
+
+    BlogImage2: {
         type: String,
         required: false
     },
 
-    BlogImage3:{
+    BlogImage3: {
         type: String,
         required: false
     },
@@ -70,7 +70,7 @@ const BlogPostSchema = new mongoose.Schema({
     tags: {
         type: [String], // Array of strings for tags
         required: false
-      },
+    },
 
 
     createdAt: {
@@ -83,7 +83,22 @@ const BlogPostSchema = new mongoose.Schema({
         default: Date.now
 
     },
-    
+
+    slug: {
+        type: String,
+        unique: true,
+        lowercase: true
+    },
+
+})
+
+// Slugify the url
+
+BlogPostSchema.pre('validate', function (next) {
+    if (this.blogTitle) {
+        this.slug = slugify(this.blogTitle, { lower: true, strict: true });
+    }
+    next();
 })
 
 const BlogPostModel = mongoose.model('BlogPost', BlogPostSchema);
