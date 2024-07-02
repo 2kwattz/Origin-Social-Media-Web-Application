@@ -7,12 +7,29 @@ const hbs = require('hbs'); // Template Engine
 const cookieParser = require('cookie-parser'); // For Login
 const path = require('path');
 const compression = require("compression"); // Optimizer
-const http = require('http').Server(app); // http request maker
+const http = require('http');  // http request maker
 const nodemon = require('nodemon'); // For Server Restart 
 const multer = require('multer');
 const cors = require('cors'); // Cross Enviornment
 const storage = multer.memoryStorage();
-const port = 80 ||  process.env.PORT;
+const port = process.env.PORT || 80;
+
+
+// Socket.IO Chat App
+
+const socketIo = require('socket.io');
+
+// Create an HTTP server based on current one
+const server = http.createServer(app);
+
+// Attach Socket.IO to the server
+const io = socketIo(server);
+
+// Socket.io Events
+
+io.on("connection", function(socket){
+  console.log(`Client with socket id ${socket.id} has been connected `)
+})
 
 // Database
 const mongoose = require('mongoose');
@@ -65,8 +82,12 @@ hbs.registerHelper('eq', function (a, b) {
     return a === b;
   });
 
-  app.listen(port, () => {
+  // app.listen(port, () => {
+  //   console.log(`Server is running on port ${port}`);
+  // });
+
+  server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-  });
+});
 
   
