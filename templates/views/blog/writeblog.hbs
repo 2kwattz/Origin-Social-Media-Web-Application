@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/global.css">
     <title>Write Blog</title>
 </head>
 <body>
+
+    {{>header}}
+    
+
     <form action="/blog/writeblog" method="POST">
-    <input type="text" name="blogTitle" placeholder="Enter Blog Title">
-    <input type="text" name="blogSubheading" placeholder="Enter Blog Subtitle">
-    <textarea name="blogContent" placeholder="Your daily suvichar board is here"></textarea>
+    <input type="text" name="blogTitle" placeholder="Enter Blog Title"><br><br>
+    <input type="text" name="blogSubheading" placeholder="Enter Blog Subtitle"><br><br>
+    <textarea name="blogContent" placeholder="Your daily suvichar board is here"></textarea><br><br>
 
 
     <button class="btn" type="submit"> Create Blog </button>

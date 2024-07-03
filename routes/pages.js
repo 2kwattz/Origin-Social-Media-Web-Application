@@ -154,6 +154,10 @@ router.get("/blog/:slug", async function(req,res){
     
 })
 
+router.get("/community/chat", auth, async function(req,res){
+    res.render("chat/communitychat")
+
+})
 // Authentication Routes
 
 // Logout
