@@ -46,10 +46,25 @@ let connectedSockets = {};
 // Socket.io Events
 io.on("connection", function(socket){
   const session = socket.request.session;
-  session.loggedIn?console.log(`${session.userFirstName} ${session.userLastName} has been connected with socket id ${socket.id}`): console.log(`Client with socket id ${socket.id} has been connected `)
+  session.loggedIn?console.log(`${session.userFirstName} ${session.userLastName} has been connected with socket id ${socket.id}`): console.log(`Anonymous User has been connected `)
+  
+  if (session.loggedIn){
+    connectedSockets[socket.id] = session._id
+    console.log("User has been mapped with socket object")
+  }
+  else{
+    connectedSockets[socket.id] = 'Anonymous';
+  }
  
-  connectedSockets
+  socket.on('disconnect', () => {
+    console.log(`User ${session.userFirstName} ${session.userLastName} disconnected`);
+    delete connectedSockets[socket.id];
+
+    io.emit('usersList', Object.values(connectedSockets))
+});
 })
+
+
 
 // Database
 const mongoose = require('mongoose');
