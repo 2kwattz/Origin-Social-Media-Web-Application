@@ -21,6 +21,13 @@ const auth = async (req, res, next) => {
         console.log("Validated User Authentication for _id", user._id);
 
         // Add user to request object
+
+        req.session.userId = user._id;
+                req.session.userFirstName = user.userFirstName;
+                req.session.loggedIn = true;
+                req.session.userLastName = user.userLastName;
+                console.log("Session Data ",req.session)
+
         req.user = user;
 
         next();

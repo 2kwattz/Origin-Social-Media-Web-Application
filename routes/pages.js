@@ -20,37 +20,38 @@ router.get("/", async function (req, res) {
     res.render("index");
 })
 
-router.get("/account/login", async function(req,res){
+router.get("/account/login", async function (req, res) {
     res.render("account/login");
 })
 
-router.post("/account/login", async function(req,res){      
+router.post("/account/login", async function (req, res) {
     console.log(req);
     const emailAddress = req.body.email;
     const password = req.body.password;
 
-    try{
-        const verifiedEmail = await RegisterUser.findOne({userEmail:emailAddress});
-        
-        if(verifiedEmail){
-            const isMatch = bcrypt.compare(password,verifiedEmail.userPassword)
+    try {
+        const verifiedEmail = await RegisterUser.findOne({ userEmail: emailAddress });
 
-            if(isMatch){
+        if (verifiedEmail) {
+            const isMatch = bcrypt.compare(password, verifiedEmail.userPassword)
+
+            if (isMatch) {
                 const token = await verifiedEmail.generateAuthtoken()
                 console.log(`JWT Token Generated ${token}`)
-                res.cookie("jwt", token,{
-                    expires:new Date(Date.now()+9000000),
+                res.cookie("jwt", token, {
+                    expires: new Date(Date.now() + 9000000),
                     httpOnly: true
                 })
-                res.status(201).render("index"); 
+                console.log("Session Data ",req.session)
+                res.status(201).render("index");
             }
         }
-        else{
+        else {
             res.render("Credentials are not matching")
         }
         console.log(verifiedEmail)
     }
-    catch(error){
+    catch (error) {
         console.log(error)
         res.send("Invalid Email or password")
     }
@@ -58,16 +59,16 @@ router.post("/account/login", async function(req,res){
 
 })
 
-router.get("/account/register", async function(req,res){
+router.get("/account/register", async function (req, res) {
     res.render("account/register")
 })
 
-router.post("/account/register", async function(req,res){
-    try{
+router.post("/account/register", async function (req, res) {
+    try {
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword;
 
-        if(password===confirmPassword){
+        if (password === confirmPassword) {
 
             const registerUserAccount = new RegisterUser({
                 userFirstName: req.body.firstName,
@@ -84,28 +85,28 @@ router.post("/account/register", async function(req,res){
 
             const registered = await registerUserAccount.save()
 
-            if(registered){
+            if (registered) {
                 res.status(201).render("index")
             }
-            else{
+            else {
                 res.send("Registering Error")
             }
         }
-        else{
+        else {
             res.send("Passwords Do Not Match")
 
         }
     }
-    catch(error){
+    catch (error) {
         console.log(error)
     }
 })
 
-router.get("/blog/writeblog",auth, async function(req,res){
+router.get("/blog/writeblog", auth, async function (req, res) {
     res.render("blog/writeblog");
 })
 
-router.post("/blog/writeblog", auth, async function(req,res){
+router.post("/blog/writeblog", auth, async function (req, res) {
     const blogTitle = req.body.blogTitle;
     const blogSubheading = req.body.blogSubheading;
     const blogContent = req.body.blogContent;
@@ -117,70 +118,70 @@ router.post("/blog/writeblog", auth, async function(req,res){
         blogSubheading,
         blogContent,
         blogStatus,
-        blogAuthor,  
+        blogAuthor,
+    })
+        .save()
+        .then(doc => {
+            console.log('Blog post saved:', doc);
         })
-  .save()
-  .then(doc => {
-    console.log('Blog post saved:', doc);
-  })
-  .catch(err => {
+        .catch(err => {
 
-      console.error('Error:', err);
-    }
-  );
+            console.error('Error:', err);
+        }
+        );
 
     res.render("blog/writeblog");
 })
 
 // Blog Template 
 
-router.get("/blog/:slug", async function(req,res){
+router.get("/blog/:slug", async function (req, res) {
     const slug = req.params.slug
-    try{
+    try {
         const blogPost = await BlogPostsModel.findOne({ slug })
         console.log(blogPost)
         const blogPostUrl = `/blog/${slug}`;
         if (!blogPost) {
             // Handle non-existent slug (e.g., 404 Not Found)
             return res.status(404).send("Blog post not found");
-          }
-          res.render("blog/blogTemplate", { blogPost })
-        
+        }
+        res.render("blog/blogTemplate", { blogPost })
+
 
     }
-    catch(error){
+    catch (error) {
         res.send(error)
     }
-    
+
 })
 
-router.get("/community/chat", auth, async function(req,res){
+router.get("/community/chat", auth, async function (req, res) {
     res.render("chat/communitychat")
 
 })
 // Authentication Routes
 
 // Logout
-router.get("/logout", auth, async function(req,res){
-    try{
+router.get("/logout", auth, async function (req, res) {
+    try {
 
-        req.user.tokens = req.user.tokens.filter((currentElement)=>{
-            return currentElement.token !== req.token  
+        req.user.tokens = req.user.tokens.filter((currentElement) => {
+            return currentElement.token !== req.token
         })
         res.clearCookie("jwt")
         console.log("Logout Successfull")
         await req.user.save()
         res.render("account/login")
     }
-    catch (error){
+    catch (error) {
         res.status(500).send(error)
     }
 })
 
 // Logout from all devices
 
-router.get("/logoutall", auth, async function(req,res){
-    try{
+router.get("/logoutall", auth, async function (req, res) {
+    try {
 
         console.log(req.user)
 
@@ -190,7 +191,7 @@ router.get("/logoutall", auth, async function(req,res){
         await req.user.save()
         res.render("account/login")
     }
-    catch (error){
+    catch (error) {
         res.status(500).send(error)
     }
 })
