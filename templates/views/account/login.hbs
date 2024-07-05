@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/global.css">
     <title>Login : Origin </title>
 </head>
 <body>
+
+    {{> header}}
+
+    <center>
+
+        {{!-- Yes! I know i am using bad practice such as using center tag and br tags but at this point my whole focus is in backend functionalities so adjust for the time being --}}
+
     <form class="form-control" action="/account/login" method="POST">
+    <h1> Login </h1><br>
     <input type="email" name="email" placeholder="Enter your email address"><br>
     <input type="password" name="password" placeholder="Enter your password"><br>
     <button class="btn" type="submit"> Login </button>
+    </center>
 
     </form>
     

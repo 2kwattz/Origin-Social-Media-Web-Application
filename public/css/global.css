@@ -12,6 +12,7 @@
 
 /*  Buttons */
 
+
 .btn-black-med{
 background-color: black;
 color: white;
@@ -64,4 +65,5 @@ button a{
     border: none;
     border-radius: 12px;
     padding: 0.7rem;
+    margin: 20px;
 }
