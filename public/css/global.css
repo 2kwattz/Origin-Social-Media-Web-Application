@@ -67,3 +67,17 @@ button a{
     padding: 0.7rem;
     margin: 20px;
 }
+
+.chat-wrapper{
+    width: "100%";
+    background-color: rgb(233, 216, 195);
+    padding: 70px 20px;
+    margin: 30px 0px;
+    
+}
+
+/* Typography */
+
+h1{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

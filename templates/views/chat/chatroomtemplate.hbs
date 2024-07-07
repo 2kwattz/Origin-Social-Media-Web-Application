@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,13 +8,27 @@
     <link rel="stylesheet" href="/css/global.css">
     <title> Chat Room </title>
 </head>
+
 <body>
 
     {{>header}}
-    <h1> Chat Room Template </h1>
 
-    {{chatRoom.chatRoomTitle}}
+    <section class="section-header">
+        <h1> Chat Room Template </h1>
+        <p> Chat Room Title : {{chatRoom.chatRoomTitle}} </p>
+        <p> Chat Room : {{chatRoomNumber}} </p>
+    </section>
 
-    {{chatRoomNumber}}
+    <div class="chat-wrapper">
+        <div class="chat-header">
+
+        </div>
+
+        <div class="chat-messages">
+
+        </div>
+
+    </div>
 </body>
+
 </html>
