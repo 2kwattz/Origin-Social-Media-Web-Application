@@ -55,6 +55,12 @@ io.on("connection", function(socket){
   else{
     connectedSockets[socket.id] = 'Anonymous';
   }
+
+  socket.on("chatMessage", function(message){
+    console.log("Message from client ", message)
+
+    io.emit("chatMessage", message)
+  })
  
   socket.on('disconnect', () => {
     console.log(`User ${session.userFirstName} ${session.userLastName} disconnected`);

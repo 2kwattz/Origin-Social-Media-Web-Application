@@ -24,11 +24,35 @@
 
         </div>
 
-        <div class="chat-messages">
+        <div class="chat-messages" id="chat-messages-box">
 
         </div>
 
+        <form class="chat-input" id="chat-input-form">
+            <input type="text" id="inputMessage">
+            
+        </form>
+
     </div>
+
+     <script src="/socket.io/socket.io.js"></script>
+     <script>
+    // Connect to the server using socket.io
+    const socket = io();
+
+    socket.on('chatMessage', function(message){
+        console.log(message)
+    })
+
+    const inputMessageForm = document.getElementById("chat-input-form");
+    const inputMessageField = document.getElementById("inputMessage");
+    const messages = document.getElementsByClassName("chat-messages-box");
+
+    function addMessages(message){
+
+    }
+
+    </script>
 </body>
 
 </html>
