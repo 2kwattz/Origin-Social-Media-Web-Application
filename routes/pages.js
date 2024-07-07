@@ -156,16 +156,17 @@ router.get("/blog/:slug", async function (req, res) {
 
 })
 
-router.get("/community/chat/:slug", auth, async function (req, res) {
-    const slug = req.params.slug;
+router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
+    const chatRoomNumber = req.params.chatRoomNumber;
+    console.log("Chat Room Number fetched from the route", chatRoomNumber)
     try{
-        const chatRoom = await ChatRoomModel.findOne({slug})
+        const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
         if (!chatRoom){
             return res.status(404).send("Chat Room Not Found")
         }
 
 
-        res.render("chat/chatroomtemplate", {chatRoom})
+        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber})
 
     }
     catch(error){
@@ -185,6 +186,12 @@ router.get("/community/joinchat",auth, async function(req,res){
     res.render("chat/joinchat")
 })
 
+router.post("/community/joinchat",auth, async function(req,res){
+    const chatRoomId = req.body.chatRoomId;
+
+    res.render("chat/chatroomtemplate", {chatRoom,chatRoomId})
+})
+
 router.post("/community/createchat", auth, async function(req,res){
 
     const chatRoomTitle = req.body.chatRoomTitle;
@@ -192,7 +199,7 @@ router.post("/community/createchat", auth, async function(req,res){
     const newChatRoom = new ChatRoomModel({chatRoomTitle})
 
     const savedChatRoom = await newChatRoom.save();
-    const newChatRoomId = savedChatRoom._id;
+    const newChatRoomId = savedChatRoom.chatRoomNumber;
     console.log("Chatroom Saved",savedChatRoom)
 
     res.render("chat/createChatroom", {newChatRoomId})
