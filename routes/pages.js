@@ -13,6 +13,8 @@ const slugify = require('slugify'); // For URL Friendly Unique String Generation
 
 const RegisterUser = require("../src/models/registerUser")
 const BlogPostsModel = require("../src/models/blogposts/blogposts")
+const ChatRoomModel = require("../src/models/chatRooms/chatroom")
+
 
 app.use(cookieParser());
 
@@ -147,7 +149,6 @@ router.get("/blog/:slug", async function (req, res) {
         }
         res.render("blog/blogTemplate", { blogPost })
 
-
     }
     catch (error) {
         res.send(error)
@@ -155,10 +156,50 @@ router.get("/blog/:slug", async function (req, res) {
 
 })
 
-router.get("/community/chat", auth, async function (req, res) {
-    res.render("chat/communitychat")
+router.get("/community/chat/:slug", auth, async function (req, res) {
+    const slug = req.params.slug;
+    try{
+        const chatRoom = await ChatRoomModel.findOne({slug})
+        if (!chatRoom){
+            return res.status(404).send("Chat Room Not Found")
+        }
+
+
+        res.render("chat/chatroomtemplate", {chatRoom})
+
+    }
+    catch(error){
+        res.send(error)
+    }
 
 })
+
+// Create & Join Chat
+
+router.get("/community/createchat", auth, async function(req,res){
+    res.render("chat/createChatroom")
+
+})
+
+router.get("/community/joinchat",auth, async function(req,res){
+    res.render("chat/joinchat")
+})
+
+router.post("/community/createchat", auth, async function(req,res){
+
+    const chatRoomTitle = req.body.chatRoomTitle;
+
+    const newChatRoom = new ChatRoomModel({chatRoomTitle})
+
+    const savedChatRoom = await newChatRoom.save();
+    const newChatRoomId = savedChatRoom._id;
+    console.log("Chatroom Saved",savedChatRoom)
+
+    res.render("chat/createChatroom", {newChatRoomId})
+
+})
+
+
 // Authentication Routes
 
 // Logout
