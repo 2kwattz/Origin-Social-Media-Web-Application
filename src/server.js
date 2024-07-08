@@ -56,10 +56,10 @@ io.on("connection", function(socket){
     connectedSockets[socket.id] = 'Anonymous';
   }
 
-  socket.on("chatMessage", function(message){
-    console.log("Message from client ", message)
+  socket.on("chatMessage", function(messageData){
+    console.log("Message from client ", messageData.message)
 
-    io.emit("chatMessage", message)
+    io.emit("chatMessage", messageData)
   })
  
   socket.on('disconnect', () => {

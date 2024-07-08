@@ -26,6 +26,7 @@ const auth = async (req, res, next) => {
                 req.session.userFirstName = user.userFirstName;
                 req.session.loggedIn = true;
                 req.session.userLastName = user.userLastName;
+                req.session.userId = user._id
 
         req.user = user;
 

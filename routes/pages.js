@@ -158,15 +158,17 @@ router.get("/blog/:slug", async function (req, res) {
 
 router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
     const chatRoomNumber = req.params.chatRoomNumber;
+    const sessionData = req.session;
     console.log("Chat Room Number fetched from the route", chatRoomNumber)
     try{
         const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
         if (!chatRoom){
             return res.status(404).send("Chat Room Not Found")
         }
+        console.log("User data from chatroom page", RegisterUser.userFirstName)
 
 
-        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber})
+        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData})
 
     }
     catch(error){
@@ -217,6 +219,7 @@ router.get("/logout", auth, async function (req, res) {
             return currentElement.token !== req.token
         })
         res.clearCookie("jwt")
+        sessionStorage.clear();
         console.log("Logout Successfull")
         await req.user.save()
         res.render("account/login")
@@ -234,7 +237,8 @@ router.get("/logoutall", auth, async function (req, res) {
         console.log(req.user)
 
         req.user.userTokens = []
-        res.clearCookie("jwt")
+        await res.clearCookie("jwt")
+        await sessionStorage.clear();
         console.log("Logout from all devices Successfull")
         await req.user.save()
         res.render("account/login")
