@@ -93,7 +93,7 @@ const jwt = require("jsonwebtoken")
 // JWT Token Generation
 
 const createToken = async() => {
-  const token = await jwt.sign({_id:"668042780026b6991062fe9c"}, "random_secret_key_making_sure_its_more_than_32chars_long")
+  const token = jwt.sign({_id:"668042780026b6991062fe9c"}, "random_secret_key_making_sure_its_more_than_32chars_long")
   expiresIn:"15 minutes"
 }
 createToken()
@@ -108,11 +108,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use('/', require('../routes/pages'));
-
-// Security Middleware
-const helmet = require('helmet');
-app.use(helmet()); // Setting Security Headers
 
 // Paths
 const staticPath = path.join(__dirname, "../public");
@@ -125,6 +120,15 @@ app.set('view engine', 'hbs');
 app.set('views', templatePath);
 app.use(express.static(staticPath));
 hbs.registerPartials(partialsPath);
+
+// Security Middleware
+const helmet = require('helmet');
+app.use(helmet()); // Setting Security Headers
+
+app.use('/', require('../routes/pages'));
+
+
+
 
 // Set Helper
 
