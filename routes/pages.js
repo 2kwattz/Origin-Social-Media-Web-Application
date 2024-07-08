@@ -161,15 +161,19 @@ router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
     const sessionData = req.session;
     const userData = req.user;
     console.log("Chat Room Number fetched from the route", chatRoomNumber)
+    const userId = req.user._id;
+    const ModelUser = await RegisterUser.findById(userId)
+    console.log("Modal User", ModelUser)
     try{
         const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
         if (!chatRoom){
+            
+          
             return res.status(404).send("Chat Room Not Found")
         }
-        console.log("User data from chatroom page", RegisterUser.userFirstName)
 
 
-        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData,userData})
+        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData,userData,ModelUser})
 
     }
     catch(error){
@@ -270,6 +274,12 @@ router.get("/logoutall", auth, async function (req, res) {
         console.error("Logout Error:", error);
         res.status(500).send(error);
     }
+});
+
+// Unmatched Routes
+
+router.get('*', (req, res) => {
+    res.status(404).send("Error 404");
 });
 
 
