@@ -24,12 +24,14 @@
 
         </div>
 
-        <div class="chat-messages" id="chat-messages-box">
+        <ul class="chat-messages" id="chat-messages-box">
 
-        </div>
+
+        </ul>
 
         <form class="chat-input" id="chat-input-form">
             <input type="text" id="inputMessage">
+            <button type="submit">Send</button>
             
         </form>
 
@@ -46,11 +48,25 @@
 
     const inputMessageForm = document.getElementById("chat-input-form");
     const inputMessageField = document.getElementById("inputMessage");
-    const messages = document.getElementsByClassName("chat-messages-box");
+    const messages = document.getElementById("chat-messages-box");
 
     function addMessages(message){
-
+        const li = document.createElement('li');
+        li.textContent = message;
+        messages.appendChild(li)
     }
+
+    inputMessageForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(inputMessageField.value){
+            socket.emit("chatMessage", inputMessageField.value);
+            inputMessageField.value = '';
+        }
+    })
+
+    socket.on("chatMessage", function(message){
+        addMessages(message)
+    })
 
     </script>
 </body>
