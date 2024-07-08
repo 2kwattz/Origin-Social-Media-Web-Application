@@ -159,6 +159,7 @@ router.get("/blog/:slug", async function (req, res) {
 router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
     const chatRoomNumber = req.params.chatRoomNumber;
     const sessionData = req.session;
+    const userData = req.user;
     console.log("Chat Room Number fetched from the route", chatRoomNumber)
     try{
         const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
@@ -168,7 +169,7 @@ router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
         console.log("User data from chatroom page", RegisterUser.userFirstName)
 
 
-        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData})
+        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData,userData})
 
     }
     catch(error){
@@ -213,40 +214,63 @@ router.post("/community/createchat", auth, async function(req,res){
 
 // Logout
 router.get("/logout", auth, async function (req, res) {
+
+    console.log(`REQ.USER DATA`, req.user)
     try {
 
-        req.user.tokens = req.user.tokens.filter((currentElement) => {
+        req.user.tokens = req.user.userTokens.filter((currentElement) => {
             return currentElement.token !== req.token
         })
         res.clearCookie("jwt")
-        sessionStorage.clear();
-        console.log("Logout Successfull")
+        req.session.destroy(function(error){
+            return error?res.render("error"):null
+        })
+        res.clearCookie('connect.sid');
+        res.clearCookie('jwt');
+        console.log("Cleared Session & JWT. Logout Successfull")
         await req.user.save()
         res.render("account/login")
     }
     catch (error) {
+        console.log("Logout Error", error)
         res.status(500).send(error)
     }
 })
 
 // Logout from all devices
-
 router.get("/logoutall", auth, async function (req, res) {
     try {
+        console.log(req.user);  // Debugging to ensure req.user is set correctly
 
-        console.log(req.user)
+        // Destroy the session
+        req.session.destroy(async function (error) {
+            if (error) {
+                console.error("Failed to destroy session:", error);
+                return res.status(500).render("error");
+            }
 
-        req.user.userTokens = []
-        await res.clearCookie("jwt")
-        await sessionStorage.clear();
-        console.log("Logout from all devices Successfull")
-        await req.user.save()
-        res.render("account/login")
+            // Clear session-related cookies
+            res.clearCookie('connect.sid');
+
+            // Remove all tokens from the user's tokens array
+            req.user.tokens = [];
+
+            // Clear the JWT cookie
+            res.clearCookie("jwt");
+
+            // Save the updated user object to the database
+            await req.user.save();
+
+            console.log("Logout from all devices successful");
+
+            // Redirect or render the login page after successful logout
+            res.render("/login");
+        });
+    } catch (error) {
+        console.error("Logout Error:", error);
+        res.status(500).send(error);
     }
-    catch (error) {
-        res.status(500).send(error)
-    }
-})
+});
 
 
 module.exports = router;
