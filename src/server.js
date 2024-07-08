@@ -47,11 +47,20 @@ let connectedSockets = {};
 io.on("connection", async function(socket){
   try{
 
+    
     const session = await socket.request.session;
+    const userData = {}
+    console.log("Session Data from Server.js", session)
     session.loggedIn?console.log(`${session.userFirstName} ${session.userLastName} has been connected with socket id ${socket.id}`): console.log(`Anonymous User has been connected `)
     if (session.loggedIn){
       connectedSockets[socket.id] = session._id
       console.log("User has been mapped with socket object")
+      userData.name = `${session.userFirstName} ${session.userLastName}`
+      userData.email = session.userEmail;
+      userData.id = session.userId;
+      userData.message = undefined
+
+      console.log("User Data Object", userData)
     }
     else{
       connectedSockets[socket.id] = 'Anonymous';
@@ -60,8 +69,6 @@ io.on("connection", async function(socket){
   catch(error){
     console.log("Error while mapping sockets to session", error)
   }
-  
-
 
   socket.on("chatMessage", function(messageData){
     console.log("Message from client ", messageData.message)
@@ -79,8 +86,6 @@ io.on("connection", async function(socket){
     io.emit('usersList', Object.values(connectedSockets))
 });
 })
-
-
 
 // Database
 const mongoose = require('mongoose');
@@ -126,9 +131,6 @@ const helmet = require('helmet');
 app.use(helmet()); // Setting Security Headers
 
 app.use('/', require('../routes/pages'));
-
-
-
 
 // Set Helper
 

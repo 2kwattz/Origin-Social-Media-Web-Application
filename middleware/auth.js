@@ -9,7 +9,7 @@ const auth = async (req, res, next) => {
         if (!token) {
             return res.status(401).send({ error: "Access Denied. No token provided." });
         }
-        
+
         const verifyUser = jwt.verify(token, secret_key);
 
         // Getting Users Data
@@ -17,17 +17,15 @@ const auth = async (req, res, next) => {
         if (!user) {
             return res.status(401).send({ error: "Access Denied. User not found." });
         }
-        
+        console.log("User Email:", user.userEmail);
         console.log("Validated User Authentication for _id", user._id);
-
         // Add user to request object
-
+        
         req.session.userId = user._id;
-                req.session.userFirstName = user.userFirstName;
-                req.session.loggedIn = true;
-                req.session.userLastName = user.userLastName;
-                req.session.userId = user._id
-
+        req.session.userFirstName = user.userFirstName;
+        req.session.loggedIn = true;
+        req.session.userLastName = user.userLastName;
+        req.session.userEmail = user.userEmail;
         req.user = user;
 
         next();
