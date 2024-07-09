@@ -45,11 +45,13 @@ io.use((socket, next) => {
 let connectedSockets = {};
 
 // Socket.io Events
+
+// Establishing connection with sockets
 io.on("connection", async function(socket){
   try{
-
-    
     const session = await socket.request.session;
+
+    // Binding Authenticated User with Socket Id
     const userData = {}
     console.log("Session Data from Server.js", session)
     session.loggedIn?console.log(`${session.userFirstName} ${session.userLastName} has been connected with socket id ${socket.id}`): console.log(`Anonymous User has been connected `)
