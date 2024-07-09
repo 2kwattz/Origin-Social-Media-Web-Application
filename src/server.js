@@ -25,6 +25,7 @@ const sessionMiddleware = session({
   store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017' }) // Replace with your MongoDB URL
 });
 
+// Session Middleware
 app.use(sessionMiddleware)
 
 // Socket.IO Chat App
