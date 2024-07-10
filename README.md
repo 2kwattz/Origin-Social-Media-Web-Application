@@ -26,3 +26,5 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Creating a carousel dashboard of community chatrooms. (Ever seen netflix's UI?) A sort of combination of community forms and facebook groups, With options to create and join from the dashboard itself and creating an API for the same
 - A separate carousel to show the groups / community chats the user has already joined. An option within the 3 dots to leave. Would be storing the community chat's reference in the user's model
 - Add separate feature for public and private community chat rooms
+- A separate view to show the users online, Show typiing message, Ablility to send text messages, Location, Images, Live Location, Emojis, Number of users connected. In Chat notifications for users connected and disconnected,
+- 
