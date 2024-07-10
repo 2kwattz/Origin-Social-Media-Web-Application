@@ -28,4 +28,4 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Add separate feature for public and private community chat rooms
 - A separate view to show the users online, Show typiing message, Ablility to send text messages, Location, Images, Live Location, Emojis, Number of users connected. In Chat notifications for users connected and disconnected, voice notes, video and audio calls, Documents, read reciepts and last seen
 - Ability to store and clear chats
-- Ability to view users profile
+- Ability to view a short view of user profile on hovering the users within the chatroom
