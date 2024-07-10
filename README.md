@@ -27,4 +27,5 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - A separate carousel to show the groups / community chats the user has already joined. An option within the 3 dots to leave. Would be storing the community chat's reference in the user's model
 - Add separate feature for public and private community chat rooms
 - A separate view to show the users online, Show typiing message, Ablility to send text messages, Location, Images, Live Location, Emojis, Number of users connected. In Chat notifications for users connected and disconnected, voice notes, video and audio calls, Documents, read reciepts and last seen
-- 
+- Ability to store and clear chats
+- Ability to view users profile
