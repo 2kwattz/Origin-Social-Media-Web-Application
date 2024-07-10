@@ -29,3 +29,7 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - A separate view to show the users online, Show typiing message, Ablility to send text messages, Location, Images, Live Location, Emojis, Number of users connected. In Chat notifications for users connected and disconnected, voice notes, video and audio calls, Documents, read reciepts and last seen
 - Ability to store and clear chats
 - Ability to view a short view of user profile on hovering the users within the chatroom
+
+## My Profile
+
+- Creation of dynamic profile based on slugs and nodejs dynamic templating
