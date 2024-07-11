@@ -163,7 +163,7 @@ router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
     console.log("Chat Room Number fetched from the route", chatRoomNumber)
     const userId = req.user._id;
     const ModelUser = await RegisterUser.findById(userId)
-    console.log("Modal User", ModelUser)
+   
     try{
         const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
         if (!chatRoom){
@@ -278,9 +278,9 @@ router.get("/logoutall", auth, async function (req, res) {
 
 // Unmatched Routes
 
-router.get('*', (req, res) => {
-    res.status(404).send("Error 404");
-});
+// router.get('*', (req, res) => {
+//     res.status(404).send("Error 404");
+// });
 
 
 module.exports = router;

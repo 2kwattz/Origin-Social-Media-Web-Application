@@ -16,6 +16,10 @@ const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const port = process.env.PORT || 80;
 
+// Database Schemas
+const RegisterUser = require("./models/registerUser")
+const jwt = require("jsonwebtoken")
+
 // Session Configuration
 
 const sessionMiddleware = session({
@@ -25,32 +29,35 @@ const sessionMiddleware = session({
   store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017' }) // Replace with your MongoDB URL
 });
 
-app.use(sessionMiddleware)
-
-// Socket.IO Chat App
+app.use(sessionMiddleware);
 
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const getSocketsFromSession = (request) => {
-  return request.user ? request.user._id: null;
-}
-
 io.use((socket, next) => {
-  sessionMiddleware(socket.request, {}, next);
+  console.log("DEBUG POINT 1: Middleware called for socket ID:", socket.id);
+  sessionMiddleware(socket.request, {}, (err) => {
+    if (err) {
+      console.error("Session middleware error:", err);
+      return next(err);
+    }
+    console.log("Session data in middleware:", socket.request.session);
+    next();
+  });
 });
+
 
 let connectedSockets = {};
 
 // Socket.io Events
-
-// Establishing connection with sockets
 io.on("connection", async function(socket){
-  try{
-    const session = await socket.request.session;
 
-    // Binding Authenticated User with Socket Id
+  console.log("DEBUG POINT 4")
+  try{
+
+    
+    const session = await socket.request.session;
     const userData = {}
     console.log("Session Data from Server.js", session)
     session.loggedIn?console.log(`${session.userFirstName} ${session.userLastName} has been connected with socket id ${socket.id}`): console.log(`Anonymous User has been connected `)
@@ -93,9 +100,6 @@ io.on("connection", async function(socket){
 const mongoose = require('mongoose');
 require("./db/conn")
 
-// Database Schemas
-const RegisterUser = require("./models/registerUser")
-const jwt = require("jsonwebtoken")
 
 // JWT Token Generation
 
