@@ -44,6 +44,7 @@ router.post("/account/login", async function (req, res) {
                     expires: new Date(Date.now() + 9000000),
                     httpOnly: true
                 })
+                console.log("Session Data ",req.session)
                 res.status(201).render("index");
             }
         }
@@ -162,6 +163,7 @@ router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
     console.log("Chat Room Number fetched from the route", chatRoomNumber)
     const userId = req.user._id;
     const ModelUser = await RegisterUser.findById(userId)
+    console.log("Modal User", ModelUser)
     try{
         const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
         if (!chatRoom){
@@ -217,7 +219,7 @@ router.post("/community/createchat", auth, async function(req,res){
 // Logout
 router.get("/logout", auth, async function (req, res) {
 
-  
+    console.log(`REQ.USER DATA`, req.user)
     try {
 
         req.user.tokens = req.user.userTokens.filter((currentElement) => {
@@ -273,23 +275,6 @@ router.get("/logoutall", auth, async function (req, res) {
         res.status(500).send(error);
     }
 });
-
-router.get('/test-session', (req, res) => {
-    req.session.loggedIn = true;
-    req.session.userFirstName = "John";
-    req.session.userLastName = "Doe";
-    req.session.userId = "123456";
-    res.send("Session set");
-  });
-  
-  app.get('/check-session', (req, res) => {
-    if (req.session.loggedIn) {
-      res.send(`User: ${req.session.userFirstName} ${req.session.userLastName}`);
-    } else {
-      res.send("No active session");
-    }
-  });
-  
 
 // Unmatched Routes
 
