@@ -12,12 +12,14 @@ const auth = async (req, res, next) => {
 
         const verifyUser = jwt.verify(token, secret_key);
 
+        console.log("DEBUG POINT 1")
+
         // Getting Users Data
         const user = await RegisterUser.findOne({ _id: verifyUser._id }); // Await the promise
         if (!user) {
             return res.status(401).send({ error: "Access Denied. User not found." });
         }
-        console.log("User Email:", user.userEmail);
+        
         console.log("Validated User Authentication for _id", user._id);
         // Add user to request object
         
@@ -27,7 +29,7 @@ const auth = async (req, res, next) => {
         req.session.userLastName = user.userLastName;
         req.session.userEmail = user.userEmail;
         req.user = user;
-
+        console.log("DEBUG POINT 2")
         next();
     } catch (error) {
         res.status(401).send({ error: "Invalid token or user not authenticated." });
