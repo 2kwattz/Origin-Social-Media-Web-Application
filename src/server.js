@@ -15,11 +15,6 @@ const storage = multer.memoryStorage();
 const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const port = process.env.PORT || 80;
-
-// Database Schemas
-const RegisterUser = require("./models/registerUser")
-const jwt = require("jsonwebtoken")
-
 // Session Configuration
 
 const sessionMiddleware = session({
@@ -29,23 +24,42 @@ const sessionMiddleware = session({
   store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017' }) // Replace with your MongoDB URL
 });
 
-app.use(sessionMiddleware);
+// Database Schemas
+const RegisterUser = require("./models/registerUser")
+const jwt = require("jsonwebtoken")
+app.use(sessionMiddleware)
+
+// Socket.IO Chat App
 
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server);
 
-io.use((socket, next) => {
-  console.log("DEBUG POINT 1: Middleware called for socket ID:", socket.id);
-  sessionMiddleware(socket.request, {}, (err) => {
-    if (err) {
-      console.error("Session middleware error:", err);
-      return next(err);
-    }
-    console.log("Session data in middleware:", socket.request.session);
-    next();
+const getSocketsFromSession = (request) => {
+  return request.user ? request.user._id: null;
+}
+try{
+
+  console.log("this statement is being called")
+
+  io.use((socket, next) => {
+    console.log("DEBUG POINT 1: Middleware called for socket ID:", socket.id);
+    sessionMiddleware(socket.request, {}, (err) => {
+      if (err) {
+        console.error("Session middleware error:", err);
+        return next(err);
+      }
+      console.log("Session data in middleware:", socket.request.session);
+      next();
+    });
   });
-});
+}
+
+catch(error){
+console.log("Error in using middleware", error)
+}
+
+
 
 
 let connectedSockets = {};
