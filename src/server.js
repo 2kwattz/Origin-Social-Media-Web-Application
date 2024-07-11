@@ -35,6 +35,11 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017' }) // Replace with your MongoDB URL
 });
+// <<<<<<< HEAD
+// =======
+
+// Session Middleware
+// >>>>>>> 8c2ddda159e0a6fc45e31d099d2d7e0c14e424e1
 app.use(sessionMiddleware)
 
 try{
@@ -70,13 +75,15 @@ const getSocketsFromSession = (request) => {
 let connectedSockets = {};
 
 // Socket.io Events
+
+// Establishing connection with sockets
 io.on("connection", async function(socket){
 
   console.log("DEBUG POINT 4")
   try{
-
-    
     const session = await socket.request.session;
+
+    // Binding Authenticated User with Socket Id
     const userData = {}
     console.log("Session Data from Server.js", session)
     session.loggedIn?console.log(`${session.userFirstName} ${session.userLastName} has been connected with socket id ${socket.id}`): console.log(`Anonymous User has been connected `)
