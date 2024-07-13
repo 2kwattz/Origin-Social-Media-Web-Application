@@ -16,6 +16,8 @@ const auth = async (req, res, next) => {
         const user = await RegisterUser.findOne({ _id: verifyUser._id }); // Await the promise
         if (!user) {
             return res.status(401).send({ error: "Access Denied. User not found." });
+            req.session.loggedIn = false;
+            next()
         }
 
         // Add user to request object

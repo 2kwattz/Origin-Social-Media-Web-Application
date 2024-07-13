@@ -10,7 +10,14 @@
         <h1> Chat Room Template </h1>
         <p> Chat Room Title : {{chatRoom.chatRoomTitle}} </p>
         <p> Chat Room : {{chatRoomNumber}} </p>
-        Welcome {{ModelUser.userFirstName}} {{ModelUser.userLastName}}
+
+        {{#if sessionData.loggedIn}}
+        Welcome {{sessionData.userFirstName}} {{sessionData.userLastName}}
+
+
+        {{else}}
+        Welcome Anonymous User
+        {{/if}}
         {{!-- {{sessionData.userFirstName}} --}}
     </section>
 
@@ -33,7 +40,7 @@
     </div>
 
 
-   <script>
+    <script>
         const socket = io();
 
         // Function to add messages to the chat UI
@@ -51,15 +58,31 @@
             const messageText = inputMessageField.value.trim();
 
             if (messageText) {
-                const messageData = {
-                    userFirstName: `{{sessionData.userFirstName}}`, // Replace with server-side value or handle via templating
-                    userLastName: `{{sessionData.userLastName}}`,   // Replace with server-side value or handle via templating
-                    message: messageText,
-                    timestamp: new Date().toISOString()
-                };
+
+                if (`{{loggedIn}}`) {
+                    const messageData = {
+                        userFirstName: `{{sessionData.userFirstName}}`, // Replace with server-side value or handle via templating
+                        userLastName: `{{sessionData.userLastName}}`,   // Replace with server-side value or handle via templating
+                        message: messageText,
+                        timestamp: new Date().toISOString()
+                    };
+
+                     socket.emit("chatMessage", messageData);
+                }
+                else{
+                    const messageData = {
+                        userFirstName: `Anonymous`, // Replace with server-side value or handle via templating
+                        userLastName: `Napunsakh`,   // Replace with server-side value or handle via templating
+                        message: messageText,
+                        timestamp: new Date().toISOString()
+                    };
+
+                     socket.emit("chatMessage", messageData);
+                }
+
 
                 // Emit chatMessage event to the server with messageData object
-                socket.emit("chatMessage", messageData);
+               
                 inputMessageField.value = '';
             }
         });

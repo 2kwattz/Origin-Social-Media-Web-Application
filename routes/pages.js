@@ -162,31 +162,38 @@ router.get("/community/chat", async function(req,res){
     res.render("chat/communitychat")
 })
 
-router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
+router.get("/community/chat/:chatRoomNumber", async function (req, res) {
     const chatRoomNumber = req.params.chatRoomNumber;
     const sessionData = req.session;
-    const userData = req.user;
+    let isUserLoggedin = undefined;
+    // const userData = req.user;
 
-    const userId = req.user._id;
-    const ModelUser = await RegisterUser.findById(userId)
-   
-    try{
-        const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
-        if (!chatRoom){
+    console.log("REQ SESSION FROM SERVER SIDE", req.session)
+
+    if(sessionData.loggedIn){
+        isUserLoggedin = true;
+    }
+    else{
+        isUserLoggedin = false;
+    }
+        // const userId = req.user._id;
+        // const ModelUser = await RegisterUser.findById(userId)
+
+        try{
+            const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
             
-          
-            return res.status(404).send("Chat Room Not Found")
+            if (!chatRoom){
+                return res.status(404).send("Chat Room Not Found")
+            }
+    
+    
+            res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData,isUserLoggedin})
+    
         }
-
-
-        res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData,userData,ModelUser})
-
-    }
-    catch(error){
-        res.send(error)
-    }
-
-})
+        catch(error){
+            res.send(error)
+        }
+    })
 
 // Create & Join Chat
 
