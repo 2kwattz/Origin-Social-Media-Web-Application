@@ -2,7 +2,7 @@
 <html lang="en">
 
 {{>headerMeta}}
-    <title> Chat Room </title>
+<title> Chat Room </title>
 
 <body>
     {{>header}}
@@ -27,42 +27,47 @@
         <form class="chat-input" id="chat-input-form">
             <input type="text" id="inputMessage">
             <button type="submit">Send</button>
-            
+
         </form>
 
     </div>
 
-   
-     <script>
-    // Connect to the server using socket.io
-    const socket = io();
 
-    socket.on('chatMessage', function(messageData){
-        console.log(messageData)
-    })
+   <script>
+        const socket = io();
 
-    const inputMessageForm = document.getElementById("chat-input-form");
-    const inputMessageField = document.getElementById("inputMessage");
-    const messages = document.getElementById("chat-messages-box");
-
-    function addMessages(messageData){
-        const li = document.createElement('li');
-        li.textContent = messageData.message;
-        messages.appendChild(li)
-    }
-
-    inputMessageForm.addEventListener('submit', function(e){
-        e.preventDefault();
-        if(inputMessageField.value){
-            socket.emit("chatMessage", inputMessageField.value);
-            inputMessageField.value = '';
+        // Function to add messages to the chat UI
+        function addMessages(messageData) {
+            const messages = document.getElementById("chat-messages-box");
+            const li = document.createElement('li');
+            li.textContent = `${messageData.userFirstName} ${messageData.userLastName}: ${messageData.message}, Time : ${messageData.timestamp}`;
+            messages.appendChild(li);
         }
-    })
 
-    socket.on("chatMessage", function(messageData){
-        addMessages(message)
-    })
+        // Handle form submission to send chat message
+        document.getElementById("chat-input-form").addEventListener('submit', function (e) {
+            e.preventDefault();
+            const inputMessageField = document.getElementById("inputMessage");
+            const messageText = inputMessageField.value.trim();
 
+            if (messageText) {
+                const messageData = {
+                    userFirstName: `{{sessionData.userFirstName}}`, // Replace with server-side value or handle via templating
+                    userLastName: `{{sessionData.userLastName}}`,   // Replace with server-side value or handle via templating
+                    message: messageText,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Emit chatMessage event to the server with messageData object
+                socket.emit("chatMessage", messageData);
+                inputMessageField.value = '';
+            }
+        });
+
+        // Listen for incoming chat messages from the server
+        socket.on("chatMessage", function (messageData) {
+            addMessages(messageData);
+        });
     </script>
 </body>
 

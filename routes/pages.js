@@ -156,6 +156,12 @@ router.get("/blog/:slug", async function (req, res) {
 
 })
 
+// Chat Integration
+
+router.get("/community/chat", async function(req,res){
+    res.render("chat/communitychat")
+})
+
 router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
     const chatRoomNumber = req.params.chatRoomNumber;
     const sessionData = req.session;
@@ -268,7 +274,7 @@ router.get("/logoutall", auth, async function (req, res) {
             console.log("Logout from all devices successful");
 
             // Redirect or render the login page after successful logout
-            res.render("/login");
+            res.render("account/login");
         });
     } catch (error) {
         console.error("Logout Error:", error);

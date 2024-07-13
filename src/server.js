@@ -54,6 +54,7 @@ io.on('connection', async (socket) => {
   try {
     const session = socket.request.session;
     if (session.loggedIn) {
+
       // User is authenticated
       console.log(`${session.userFirstName} ${session.userLastName} connected with socket id ${socket.id}`);
       // Handle user connections, disconnections, chat messages, etc.
@@ -65,7 +66,11 @@ io.on('connection', async (socket) => {
     console.error('Error while mapping sockets to session', error);
   }
 
+  
   socket.on('chatMessage', (messageData) => {
+    
+    console.log("Message data recieved", messageData)
+    
     console.log('Message from client:', messageData.message);
     io.emit('chatMessage', messageData);
   });
