@@ -17,8 +17,7 @@ const auth = async (req, res, next) => {
         if (!user) {
             return res.status(401).send({ error: "Access Denied. User not found." });
         }
-        console.log("User Email:", user.userEmail);
-        console.log("Validated User Authentication for _id", user._id);
+
         // Add user to request object
         
         req.session.userId = user._id;

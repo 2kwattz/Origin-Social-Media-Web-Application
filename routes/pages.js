@@ -27,7 +27,7 @@ router.get("/account/login", async function (req, res) {
 })
 
 router.post("/account/login", async function (req, res) {
-    console.log(req);
+
     const emailAddress = req.body.email;
     const password = req.body.password;
 
@@ -44,14 +44,14 @@ router.post("/account/login", async function (req, res) {
                     expires: new Date(Date.now() + 9000000),
                     httpOnly: true
                 })
-                console.log("Session Data ",req.session)
+    
                 res.status(201).render("index");
             }
         }
         else {
             res.render("Credentials are not matching")
         }
-        console.log(verifiedEmail)
+        
     }
     catch (error) {
         console.log(error)
@@ -160,7 +160,7 @@ router.get("/community/chat/:chatRoomNumber", auth, async function (req, res) {
     const chatRoomNumber = req.params.chatRoomNumber;
     const sessionData = req.session;
     const userData = req.user;
-    console.log("Chat Room Number fetched from the route", chatRoomNumber)
+
     const userId = req.user._id;
     const ModelUser = await RegisterUser.findById(userId)
    
@@ -219,7 +219,7 @@ router.post("/community/createchat", auth, async function(req,res){
 // Logout
 router.get("/logout", auth, async function (req, res) {
 
-    console.log(`REQ.USER DATA`, req.user)
+   
     try {
 
         req.user.tokens = req.user.userTokens.filter((currentElement) => {
@@ -244,7 +244,7 @@ router.get("/logout", auth, async function (req, res) {
 // Logout from all devices
 router.get("/logoutall", auth, async function (req, res) {
     try {
-        console.log(req.user);  // Debugging to ensure req.user is set correctly
+        (req.user);  // Debugging to ensure req.user is set correctly
 
         // Destroy the session
         req.session.destroy(async function (error) {

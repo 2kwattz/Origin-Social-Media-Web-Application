@@ -1,177 +1,103 @@
-const express = require('express'); // Express Framework
-const axios = require('axios'); // HTTP Request Maker
-const fs = require('fs'); // File System Module
-const app = express(); // Express Instance
-const bodyParser = require('body-parser'); // Post Request Data Fetcher
-const hbs = require('hbs'); // Template Engine
-const cookieParser = require('cookie-parser'); // For Login
-const path = require('path');
-const compression = require("compression"); // Optimizer
-const http = require('http');  // http request maker
-const nodemon = require('nodemon'); // For Server Restart 
-const multer = require('multer');
-const cors = require('cors'); // Cross Enviornment
-const storage = multer.memoryStorage();
-const MongoStore = require('connect-mongo');
-const session = require('express-session');
-const port = process.env.PORT || 80;
-// Session Configuration
-
-const sessionMiddleware = session({
-  secret: 'random_secret_key_for_session_configuration', // Use a strong secret key
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017' }) // Replace with your MongoDB URL
-});
-
-// Database Schemas
-const RegisterUser = require("./models/registerUser")
-const jwt = require("jsonwebtoken")
-app.use(sessionMiddleware)
-
-// Socket.IO Chat App
-
+const express = require('express');
+const http = require('http');
 const socketIo = require('socket.io');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const path = require('path');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const compression = require('compression');
+const multer = require('multer');
+const fs = require('fs');
+const hbs = require('hbs');
+
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const getSocketsFromSession = (request) => {
-  return request.user ? request.user._id: null;
-}
-try{
+const port = process.env.PORT || 80;
 
-  console.log("this statement is being called")
+// Database setup
+require('./db/conn');
+const RegisterUser = require('./models/registerUser');
 
-  io.use((socket, next) => {
-    console.log("DEBUG POINT 1: Middleware called for socket ID:", socket.id);
-    sessionMiddleware(socket.request, {}, (err) => {
-      if (err) {
-        console.error("Session middleware error:", err);
-        return next(err);
-      }
-      console.log("Session data in middleware:", socket.request.session);
-      next();
-    });
-  });
-}
-
-catch(error){
-console.log("Error in using middleware", error)
-}
-
-
-
-
-let connectedSockets = {};
-
-// Socket.io Events
-io.on("connection", async function(socket){
-
-  console.log("DEBUG POINT 4")
-  try{
-
-    
-    const session = await socket.request.session;
-    const userData = {}
-    console.log("Session Data from Server.js", session)
-    session.loggedIn?console.log(`${session.userFirstName} ${session.userLastName} has been connected with socket id ${socket.id}`): console.log(`Anonymous User has been connected `)
-    if (session.loggedIn){
-      connectedSockets[socket.id] = session._id
-      console.log("User has been mapped with socket object")
-      userData.name = `${session.userFirstName} ${session.userLastName}`
-      userData.email = session.userEmail;
-      userData.id = session.userId;
-      userData.message = undefined
-
-      console.log("User Data Object", userData)
-    }
-    else{
-      connectedSockets[socket.id] = 'Anonymous';
-    }
-  }
-  catch(error){
-    console.log("Error while mapping sockets to session", error)
-  }
-
-  socket.on("chatMessage", function(messageData){
-    console.log("Message from client ", messageData.message)
-
-    io.emit("chatMessage", messageData)
-  })
- 
-  socket.on('disconnect', async () => {
-    const session = socket.request.session;
-    const disconnectedUserName = session.userFirstName;
-    console.log("Disconnected User Name", disconnectedUserName)
-    console.log(`User ${session.userFirstName} ${session.userLastName} disconnected`);
-    delete connectedSockets[socket.id];
-
-    io.emit('usersList', Object.values(connectedSockets))
+// Session configuration
+const sessionMiddleware = session({
+  secret: 'random_secret_key_for_session_configuration',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/' }), // Replace with your MongoDB URL
 });
-})
 
-// Database
-const mongoose = require('mongoose');
-require("./db/conn")
-
-
-// JWT Token Generation
-
-const createToken = async() => {
-  const token = jwt.sign({_id:"668042780026b6991062fe9c"}, "random_secret_key_making_sure_its_more_than_32chars_long")
-  expiresIn:"15 minutes"
-}
-createToken()
-
-// Middlewares
-
+// Middleware setup
+app.use(sessionMiddleware);
 app.use(cookieParser());
-// Enable CORS
 app.use(cors());
-
-// To get form data
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-
-// Paths
-const staticPath = path.join(__dirname, "../public");
-const templatePath = path.join(__dirname, "../templates/views");
-const partialsPath = path.join(__dirname, "../templates/partials");
-const messagePath = path.join(__dirname, "../dev-data/messages");
-const routesPath = path.join(__dirname, "../routes");
-
+app.use(compression());
+app.use(express.static(path.join(__dirname, '../public')));
 app.set('view engine', 'hbs');
-app.set('views', templatePath);
-app.use(express.static(staticPath));
-hbs.registerPartials(partialsPath);
+app.set('views', path.join(__dirname, '../templates/views'));
+hbs.registerPartials(path.join(__dirname, '../templates/partials'));
 
-// Security Middleware
-const helmet = require('helmet');
-app.use(helmet()); // Setting Security Headers
-
-app.use('/', require('../routes/pages'));
-
-// Set Helper
-
-// Register the 'eq' helper
-hbs.registerHelper('eq', function (a, b) {
-    return a === b;
-  });
-
-  // app.listen(port, () => {
-  //   console.log(`Server is running on port ${port}`);
-  // });
-
-  // Error Handeling
-
-  app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke! ');
-  });
-
-  server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+// Socket.IO middleware for session management
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, {}, next);
 });
 
-  
+// Socket.IO events
+io.on('connection', async (socket) => {
+  try {
+    const session = socket.request.session;
+    if (session.loggedIn) {
+      // User is authenticated
+      console.log(`${session.userFirstName} ${session.userLastName} connected with socket id ${socket.id}`);
+      // Handle user connections, disconnections, chat messages, etc.
+    } else {
+      console.log('Anonymous user connected');
+      // Handle anonymous user connections, if needed
+    }
+  } catch (error) {
+    console.error('Error while mapping sockets to session', error);
+  }
+
+  socket.on('chatMessage', (messageData) => {
+    console.log('Message from client:', messageData.message);
+    io.emit('chatMessage', messageData);
+  });
+
+  socket.on('disconnect', () => {
+    const session = socket.request.session;
+    if (session.loggedIn) {
+      console.log(`User ${session.userFirstName} ${session.userLastName} disconnected`);
+      // Handle disconnection logic, update connected users list, etc.
+    }
+  });
+});
+
+// JWT token generation (example, adjust as needed)
+const createToken = () => {
+  const token = jwt.sign({ _id: '668042780026b6991062fe9c' }, 'random_secret_key_making_sure_its_more_than_32chars_long', {
+    expiresIn: '15 minutes',
+  });
+  return token;
+};
+createToken();
+
+// Example route setup
+app.use('/', require('../routes/pages'));
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Server listening
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
