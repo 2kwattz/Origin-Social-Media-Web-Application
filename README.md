@@ -17,7 +17,7 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Integrated WebSocket based Events for building community chatrooms. Created Models with unique key generation to access individual chatrooms
 - Added Functionality to Create and Join Chatrooms based on individual room ids
 - Binded User's authentication details to server side session middleware for linking socket connection with user details
-- Added Chat functionality support for Anonymous/Guest user 
+- Added Chat functionality support for Anonymous/Guest user apart from authenticated users
 - Minor refinements on frontend UI for aesthetic looking purposes
 
 # Work to be done in near future
