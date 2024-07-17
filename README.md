@@ -34,3 +34,4 @@ A free social media platform to share your daily quotes, stories, ideas and more
 ## My Profile
 
 - Creation of dynamic profile based on slugs and nodejs dynamic templating
+- Adding and Updation of Users Profile Picture
