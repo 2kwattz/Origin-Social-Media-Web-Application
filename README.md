@@ -36,3 +36,5 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Creation of dynamic profile based on slugs and nodejs dynamic templating
 - Adding and Updation of Users Profile Picture
 - Adding a short bio and cover pic
+
+- # Follow me on Instagram :) @2kwattz
