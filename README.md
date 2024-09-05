@@ -15,8 +15,9 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Created separate Schema & Model for writing blog posts and rendering using dynamic templating
 - Implemented Blog Posts Functionality to create a blog with Title, Subtitle, Blog Content, Images, Author and much more
 - Integrated WebSocket based Events for building community chatrooms. Created Models with unique key generation to access individual chatrooms
-- Added Functionality to Create and Join Chatrooms.
+- Added Functionality to Create and Join Chatrooms based on individual room ids
 - Binded User's authentication details to server side session middleware for linking socket connection with user details
+- Added Chat functionality support for Anonymous/Guest user apart from authenticated users
 - Minor refinements on frontend UI for aesthetic looking purposes
 
 # Work to be done in near future
@@ -33,3 +34,7 @@ A free social media platform to share your daily quotes, stories, ideas and more
 ## My Profile
 
 - Creation of dynamic profile based on slugs and nodejs dynamic templating
+- Adding and Updation of Users Profile Picture
+- Adding a short bio and cover pic
+
+- # Follow me on Instagram :) @2kwattz
