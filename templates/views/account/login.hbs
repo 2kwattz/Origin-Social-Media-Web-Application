@@ -4,15 +4,19 @@
     {{>headerMeta}}
    
     <title>Login : Origin </title>
+    <link rel="stylesheet" href="/css/login.css">
 
 <body>
 
-    {{> header}}
+    {{!-- {{> header}} --}}
 
     <center>
 
         {{!-- Yes! I know i am using bad practice such as using center tag and br tags but at this point my whole focus is in backend functionalities so adjust for the time being --}}
 
+        <div class="loginCardWrapper">
+
+<div class="loginCard">
     <form class="form-control" action="/account/login" method="POST">
     <h1> Login </h1><br>
     <input type="email" name="email" placeholder="Enter your email address"><br>
@@ -21,6 +25,9 @@
     </center>
 
     </form>
+</div>
+
+</div>
     
 </body>
 </html>

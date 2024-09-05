@@ -1,0 +1,33 @@
+:root{
+    --primaryCoral: #FF623E;
+    --primaryBlack: #161823;
+    --primaryWhite: #FFFFFF;
+    --secondaryWhite: #EDEDF0;
+    --greyPrimary: #6E6F76;
+    --greySecondary: #D9D9D9;
+    --blackDarker: #000000;
+}
+
+body{
+    background-image: url("../img/login/loginBackground2.jpg");
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: multiply;
+    width: 100%;
+}
+
+.loginCardWrapper{
+    display: flex; 
+     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh
+
+}
+.loginCard{
+    background-color: var(--primaryWhite);
+    border-radius: 30px;
+    width: 60%;
+
+
+}
