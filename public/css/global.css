@@ -8,6 +8,16 @@
 
 /* Colors */
 
+:root{
+    --primaryCoral: #FF623E;
+    --primaryBlack: #161823;
+    --primaryWhite: #FFFFFF;
+    --secondaryWhite: #EDEDF0;
+    --greyPrimary: #6E6F76;
+    --greySecondary: #D9D9D9;
+    --blackDarker: #000000;
+}
+
 /* Utility Class */
 
 /*  Buttons */
@@ -33,6 +43,11 @@ justify-content: space-between;
 align-items: center;
 padding-left: 40px;
 padding-right: 40px;
+}
+
+.header-title{
+color: #161823;
+
 }
 
 .navbar-list-items{
