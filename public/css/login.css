@@ -28,6 +28,17 @@ body{
     background-color: var(--primaryWhite);
     border-radius: 30px;
     width: 60%;
+}
 
+#loginTitle{
+    color: var(--primaryBlack);
+}
 
+.loginHeader{
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items: flex-start;
+    padding: 5px 20px;
+    font-size: 0.7rem;
 }
