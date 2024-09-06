@@ -76,9 +76,10 @@ button a{
 
 .btn{
     background-color: var(--primaryCoral);
+    color: var(--primaryWhite);
     border: none;
-    border-radius: 12px;
-    padding: 1rem 2.5rem;
+    border-radius: 40px;
+    padding: 0.7rem 2.1rem;
     margin: 20px;
     font-size: 15px;
 }
@@ -89,6 +90,15 @@ button a{
     padding: 70px 20px;
     margin: 30px 0px;
     
+}
+
+/* Input Tags */
+
+input[type="text"]{
+    background-color: var(--secondaryWhite);
+    border: none;
+    padding: 10px;
+    border-radius: 30px;
 }
 
 /* Typography */
