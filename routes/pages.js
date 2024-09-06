@@ -49,7 +49,7 @@ router.post("/account/login", async function (req, res) {
             }
         }
         else {
-            res.render("Credentials are not matching")
+            res.send("Credentials are not matching")
         }
         
     }

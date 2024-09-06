@@ -33,16 +33,16 @@ border-radius: 70px;
 
 
 .header{
-padding: 5px;
 margin-bottom: 50px;
 display: flex;
 flex-direction: row;
-border: 1px solid black;
 width: 100%;
 justify-content: space-between;
 align-items: center;
-padding-left: 40px;
-padding-right: 40px;
+padding: 13px 20px;
+box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+background-color: white !important;
+
 }
 
 .header-title{
@@ -76,11 +76,12 @@ button a{
 }
 
 .btn{
-    background-color: lightcoral;
+    background-color: var(--primaryCoral);
     border: none;
     border-radius: 12px;
-    padding: 0.7rem;
+    padding: 1rem 2.5rem;
     margin: 20px;
+    font-size: 15px;
 }
 
 .chat-wrapper{
@@ -94,5 +95,5 @@ button a{
 /* Typography */
 
 h1{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Arial, Helvetica, sans-serif
 }
