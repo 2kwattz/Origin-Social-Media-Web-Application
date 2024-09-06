@@ -20,13 +20,30 @@
 
     <div class="body-wrapper">
 
-    
+        <div class="sidebar-wrapper">
+            {{>sidebar}}
+        </div>
 
-    <div class="container mt-4">
-        <button class="btn btn-danger"><a href="/login" class="text-white">Click to open login page</a></button>
-        <button class="btn btn-danger"><a href="/blog/writeblog" class="text-white">Click to write blogs</a></button>
-        <button class="btn btn-danger"><a href="/logout" class="text-white">Logout</a></button>
-    </div>
+        <div class="feed">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda, modi? Maiores eligendi quidem minima
+            magnam exercitationem mollitia inventore. Error et voluptatibus, quas amet mollitia illum animi sed
+            voluptatem omnis itaque.
+        </div>
+
+        <div class="feed-right">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi doloremque modi amet veniam reprehenderit
+            delectus magni, eos quasi itaque et vero sunt provident voluptas pariatur, ipsum reiciendis dignissimos, hic
+            inventore.
+        </div>
+
+
+
+        <div class="container mt-4">
+            <button class="btn btn-danger"><a href="/login" class="text-white">Click to open login page</a></button>
+            <button class="btn btn-danger"><a href="/blog/writeblog" class="text-white">Click to write
+                    blogs</a></button>
+            <button class="btn btn-danger"><a href="/logout" class="text-white">Logout</a></button>
+        </div>
 
     </div>
 
@@ -42,7 +59,7 @@
 
     <script>
 
-    const socket = io();
+        const socket = io();
     </script>
 </body>
 
