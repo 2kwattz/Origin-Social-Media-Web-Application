@@ -79,8 +79,8 @@ button a{
     color: var(--primaryWhite);
     border: none;
     border-radius: 40px;
-    padding: 0.7rem 2.1rem;
-    margin: 20px;
+    padding: 0.5rem 2rem;
+    margin: 5px;
     font-size: 15px;
 }
 
