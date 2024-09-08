@@ -14,6 +14,7 @@ const slugify = require('slugify'); // For URL Friendly Unique String Generation
 const RegisterUser = require("../src/models/registerUser")
 const BlogPostsModel = require("../src/models/blogposts/blogposts")
 const ChatRoomModel = require("../src/models/chatRooms/chatroom")
+const PostModel = require("../src/models/blogposts/posts")
 
 
 app.use(cookieParser());
@@ -223,6 +224,25 @@ router.post("/community/createchat", auth, async function(req,res){
     console.log("Chatroom Saved",savedChatRoom)
 
     res.render("chat/createChatroom", {newChatRoomId})
+
+})
+
+router.post("/createpost", auth, async function(req,res){
+    try{
+        console.log(req.user)
+        const newPost = new PostModel({
+            postContent: req.body.blogContent,
+            user: req.user._id,
+        })
+
+        await newPost.save();
+        console.log("Post Created Successfully\n",newPost)
+
+    }
+    catch(error){
+        console.log(error)
+        res.status(400).send(error)
+    }
 
 })
 
