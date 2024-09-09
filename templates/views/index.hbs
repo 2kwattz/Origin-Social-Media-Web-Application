@@ -58,9 +58,34 @@
                 </form>
 
             </div>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda, modi? Maiores eligendi quidem minima
-            magnam exercitationem mollitia inventore. Error et voluptatibus, quas amet mollitia illum animi sed
-            voluptatem omnis itaque.
+
+              {{#if feedPosts.length}}
+               {{#each feedPosts}}
+            <div class="posts">
+                <div class="posts-header">
+                    <div class="posts-header-left">
+                        <div class="posts-avatar">
+                            <img src="/img/icons/defaultdp.png" height="35px" width="35px">
+                        </div>
+                        <div class="posts-details">
+                            <p class="post-author">{{this.user.userFirstName}}</p>
+                            <p class="post-datetime">{{this.createdAt}}</p>
+                        </div>
+
+                    </div>
+                    <div class="posts-header-right">
+
+                    </div>
+                </div>
+                <div class="post-content">
+               {{this.postContent}}
+                </div>
+            </div>
+              {{/each}}
+    {{else}}
+    <p> No Posts Available </p>
+    {{/if}}
+
         </div>
 
         <div class="feed-right">

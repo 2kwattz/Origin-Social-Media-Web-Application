@@ -14,13 +14,23 @@ const slugify = require('slugify'); // For URL Friendly Unique String Generation
 const RegisterUser = require("../src/models/registerUser")
 const BlogPostsModel = require("../src/models/blogposts/blogposts")
 const ChatRoomModel = require("../src/models/chatRooms/chatroom")
-const PostModel = require("../src/models/blogposts/posts")
+const PostModel = require("../src/models/blogposts/posts");
+const { collection } = require('../src/models/blogposts/blogposts');
 
 
 app.use(cookieParser());
 
 router.get("/", async function (req, res) {
-    res.render("index");
+    
+
+    try{
+const feedPosts = await PostModel.find().populate('user');
+console.log(feedPosts)
+res.render("index",{feedPosts});
+    }
+    catch(error){
+console.log(error)
+    }
 })
 
 router.get("/account/login", async function (req, res) {

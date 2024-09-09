@@ -74,8 +74,35 @@ body{
 
 }
 
+.posts{
+    background-color: var(--primaryWhite);
+    border-radius: 15px;
+    margin: 20px 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
 .create-post input{
     width: 100%;
+}
+
+.posts-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.posts-header-left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.posts-details{
+    margin: 0px 10px;
+    font-size: 14px;
 }
 
 .input-text-general{

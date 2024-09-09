@@ -7,7 +7,7 @@ const postsSchema = new mongoose.Schema({
 
     user:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserSchema',
+        ref: 'Register',
         required: true,
     },
     postContent:{
@@ -27,7 +27,7 @@ const postsSchema = new mongoose.Schema({
         unique: true,
         lowercase: true
     },
-    likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Register'}],
 })
 
 postsSchema.pre('save', function(next){
