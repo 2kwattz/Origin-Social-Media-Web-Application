@@ -8,6 +8,8 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Personal Chats
 - Video & Voice based calling
 - Ability to post and share news articles
+- Ability to post stories
+- ABility to buy/sell products
   
 # Work Done
 
