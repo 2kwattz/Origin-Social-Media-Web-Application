@@ -65,8 +65,6 @@ io.on('connection', async (socket) => {
   } catch (error) {
     console.error('Error while mapping sockets to session', error);
   }
-
-  
   socket.on('chatMessage', (messageData) => {
     
     console.log("Message data recieved", messageData)
