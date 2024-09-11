@@ -9,18 +9,18 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Video & Voice based calling
 - Ability to post and share news articles
 - Ability to post stories
-- ABility to buy/sell products
+- Ability to buy/sell products
   
 # Work Done
 
 - Integrated JWT Token based Login System & Bcrypt Hashing Encryption for user validation
+- Added Functionality to Create and Join Chatrooms based on individual room ids
 - Created separate Schema & Model for writing blog posts and rendering using dynamic templating
 - Created Schema and Model for creating a social media post via Home page
 - Integrated the basic structure of Posts Data into RESTful API and displayed it in home feed. (Eventually need to refine it)
 - Developed frontend for the Home feed & Navbar 
 - Implemented Blog Posts Functionality to create a blog with Title, Subtitle, Blog Content, Images, Author and much more
 - Integrated WebSocket based Events for building community chatrooms. Created Models with unique key generation to access individual chatrooms
-- Added Functionality to Create and Join Chatrooms based on individual room ids
 - Binded User's authentication details to server side session middleware for linking socket connection with user details
 - Added Chat functionality support for Anonymous/Guest user apart from authenticated users
 - Minor refinements on frontend UI for aesthetic looking purposes
