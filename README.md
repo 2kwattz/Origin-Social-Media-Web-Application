@@ -13,6 +13,9 @@ A free social media platform to share your daily quotes, stories, ideas and more
 
 - Integrated JWT Token based Login System & Bcrypt Hashing Encryption for user validation
 - Created separate Schema & Model for writing blog posts and rendering using dynamic templating
+- Created Schema and Model for creating a social media post via Home page
+- Integrated the basic structure of Posts Data into RESTful API and displayed it in home feed. (Eventually need to refine it)
+- Developed frontend for the Home feed & Navbar 
 - Implemented Blog Posts Functionality to create a blog with Title, Subtitle, Blog Content, Images, Author and much more
 - Integrated WebSocket based Events for building community chatrooms. Created Models with unique key generation to access individual chatrooms
 - Added Functionality to Create and Join Chatrooms based on individual room ids
@@ -20,7 +23,7 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Added Chat functionality support for Anonymous/Guest user apart from authenticated users
 - Minor refinements on frontend UI for aesthetic looking purposes
 
-# Work to be done in near future
+# Work to be done in NEAR future
 
 ## Community Chat
 
@@ -36,5 +39,11 @@ A free social media platform to share your daily quotes, stories, ideas and more
 - Creation of dynamic profile based on slugs and nodejs dynamic templating
 - Adding and Updation of Users Profile Picture
 - Adding a short bio and cover pic
+
+ ## Security
+
+- Sanitization of user input to prevent malicious injections like SQL injection, cross-site scripting (XSS), and cross-site request forgery (CSRF).
+- Usage of parameterized queries instead of concatenating user input directly into SQL queries.
+-  Implementation of measures to limit the number of unsuccessful login attempts to prevent brute force attacks.
 
 - # Follow me on Instagram :) @2kwattz
