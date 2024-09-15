@@ -1,13 +1,14 @@
- import React from "react";
-import Test from "./components/test/test";
- 
- function App(){
+import React from "react";
+import Header from "./components/general/header/header";
 
-  return <React.Fragment>
-  <Test></Test>
-  <h1> Hello Urvashi (World)</h1>
+function App() {
 
-  </React.Fragment>
- }
+    return <React.Fragment>
 
- export default App;
+        <Header />
+        
+      
+    </React.Fragment>
+}
+
+export default App;

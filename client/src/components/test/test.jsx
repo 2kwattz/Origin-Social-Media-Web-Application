@@ -6,9 +6,13 @@ function Test(){
         return 'Roshan Bhatia'
     }
 
-    return <p> 
+    return 
+    <React.Fragment>
+    <p> 
     Test message : {number} , I am {fullName()}
     </p>
+
+    </React.Fragment>
 
 }
 
