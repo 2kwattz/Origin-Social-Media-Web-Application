@@ -44,7 +44,7 @@ background-color: white !important;
 
 }
 
-.header-title{
+.headerTitle{
 color: #161823;
 
 }
@@ -84,7 +84,7 @@ button a{
     font-size: 15px;
 }
 
-.chat-wrapper{
+.chatWrapper{
     width: "100%";
     background-color: rgb(233, 216, 195);
     padding: 70px 20px;

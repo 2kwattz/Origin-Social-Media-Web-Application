@@ -1,0 +1,108 @@
+/* CSS RESET */
+
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Colors */
+
+:root{
+  --primaryCoral: #FF623E;
+  --primaryBlack: #161823;
+  --primaryWhite: #FFFFFF;
+  --secondaryWhite: #EDEDF0;
+  --greyPrimary: #6E6F76;
+  --greySecondary: #D9D9D9;
+  --blackDarker: #000000;
+}
+
+/* Utility Class */
+
+/*  Buttons */
+
+
+.btnBlackMed{
+background-color: black;
+color: white;
+padding: 9px 15px;
+font-size: 0.8rem;
+border-radius: 70px;
+}
+
+
+.header{
+display: flex;
+flex-direction: row;
+width: 100%;
+justify-content: space-between;
+align-items: center;
+padding: 13px 20px;
+box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+background-color: white !important;
+
+}
+
+.header-title{
+color: #161823;
+
+}
+
+.navbarListItems{
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+align-items: center;
+gap: 15px;
+}
+
+.navbarListItems li a{
+margin: 9px;
+text-decoration: none;
+color: black;
+}
+
+.navbarListItems li a:hover{
+  margin: 9px;
+  text-decoration: none;
+  color: rgb(49, 47, 47);
+  }
+
+button a{
+  text-decoration: none;
+  color: black;
+}
+
+.btn{
+  background-color: var(--primaryCoral);
+  color: var(--primaryWhite);
+  border: none;
+  border-radius: 40px;
+  padding: 0.5rem 2rem;
+  margin: 5px;
+  font-size: 15px;
+}
+
+.chatWrapper{
+  width: "100%";
+  background-color: rgb(233, 216, 195);
+  padding: 70px 20px;
+  margin: 30px 0px;
+  
+}
+
+/* Input Tags */
+
+input[type="text"]{
+  background-color: var(--secondaryWhite);
+  border: none;
+  padding: 10px;
+  border-radius: 30px;
+}
+
+/* Typography */
+
+h1{
+  font-family: Arial, Helvetica, sans-serif
+}
