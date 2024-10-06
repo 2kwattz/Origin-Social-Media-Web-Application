@@ -1,20 +1,17 @@
 import React from "react";
 import Header from "./components/general/header/header";
-import styles from "./App.module.css"
+import "./index.css";
 import Sidebar from "./components/general/sidebar/sidebar";
 
 function App() {
-
-    return <React.Fragment>
-
-        <Header />
-        <div className={styles.bodyWrapper}>
-
-            <Sidebar />
-        </div>
-
-
-    </React.Fragment>
+    return ( // Make sure to return JSX
+        <React.Fragment>
+            <Header />
+            <div className="bodyWrapper"> {/* Use className for global CSS */}
+                <Sidebar />
+            </div>
+        </React.Fragment>
+    );
 }
 
 export default App;

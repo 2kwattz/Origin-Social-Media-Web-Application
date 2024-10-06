@@ -21,16 +21,28 @@ const { collection } = require('../src/models/blogposts/blogposts');
 app.use(cookieParser());
 
 router.get("/", async function (req, res) {
-    
 
-    try{
-const feedPosts = await PostModel.find().populate('user');
-console.log(feedPosts)
-res.render("index",{feedPosts});
+    try {
+        const feedPosts = await PostModel.find().populate('user');
+        console.log(feedPosts)
+        res.render("index", { feedPosts });
     }
-    catch(error){
-console.log(error)
+    catch (error) {
+        console.log(error)
     }
+})
+
+// APIs
+
+router.get("/api/feed", async function(req,res){
+try{
+    const feedPosts = await PostModel.find().populate('user')
+    res.json(feedPosts)
+}
+catch(error){
+    console.log(error)
+    res.send(error)
+}
 })
 
 router.get("/account/login", async function (req, res) {
@@ -55,14 +67,14 @@ router.post("/account/login", async function (req, res) {
                     expires: new Date(Date.now() + 9000000),
                     httpOnly: true
                 })
-    
+
                 res.status(201).render("index");
             }
         }
         else {
             res.send("Credentials are not matching")
         }
-        
+
     }
     catch (error) {
         console.log(error)
@@ -169,7 +181,7 @@ router.get("/blog/:slug", async function (req, res) {
 
 // Chat Integration
 
-router.get("/community/chat", async function(req,res){
+router.get("/community/chat", async function (req, res) {
     res.render("chat/communitychat")
 })
 
@@ -181,64 +193,62 @@ router.get("/community/chat/:chatRoomNumber", async function (req, res) {
 
     console.log("REQ SESSION FROM SERVER SIDE", req.session)
 
-    if(sessionData.loggedIn){
+    if (sessionData.loggedIn) {
         isUserLoggedin = true;
     }
-    else{
+    else {
         isUserLoggedin = false;
     }
-        // const userId = req.user._id;
-        // const ModelUser = await RegisterUser.findById(userId)
+    // const userId = req.user._id;
+    // const ModelUser = await RegisterUser.findById(userId)
 
-        try{
-            const chatRoom = await ChatRoomModel.findOne({chatRoomNumber})
-            
-            if (!chatRoom){
-                return res.status(404).send("Chat Room Not Found")
-            }
-    
-    
-            res.render("chat/chatroomtemplate", {chatRoom,chatRoomNumber,RegisterUser,sessionData,isUserLoggedin})
-    
+    try {
+        const chatRoom = await ChatRoomModel.findOne({ chatRoomNumber })
+
+        if (!chatRoom) {
+            return res.status(404).send("Chat Room Not Found")
         }
-        catch(error){
-            res.send(error)
-        }
-    })
+        res.render("chat/chatroomtemplate", { chatRoom, chatRoomNumber, RegisterUser, sessionData, isUserLoggedin })
+
+    }
+    catch (error) {
+        res.send(error)
+    }
+})
 
 // Create & Join Chat
 
-router.get("/community/createchat", auth, async function(req,res){
+router.get("/community/createchat", auth, async function (req, res) {
     res.render("chat/createChatroom")
 
 })
 
-router.get("/community/joinchat",auth, async function(req,res){
+router.get("/community/joinchat", auth, async function (req, res) {
     res.render("chat/joinchat")
 })
 
-router.post("/community/joinchat",auth, async function(req,res){
+router.post("/community/joinchat", auth, async function (req, res) {
     const chatRoomId = req.body.chatRoomId;
 
-    res.render("chat/chatroomtemplate", {chatRoom,chatRoomId})
+    res.render("chat/chatroomtemplate", { chatRoom, chatRoomId })
 })
 
-router.post("/community/createchat", auth, async function(req,res){
+router.post("/community/createchat", auth, async function (req, res) {
 
     const chatRoomTitle = req.body.chatRoomTitle;
 
-    const newChatRoom = new ChatRoomModel({chatRoomTitle})
+    const newChatRoom = new ChatRoomModel({ chatRoomTitle })
 
     const savedChatRoom = await newChatRoom.save();
     const newChatRoomId = savedChatRoom.chatRoomNumber;
-    console.log("Chatroom Saved",savedChatRoom)
+    console.log("Chatroom Saved", savedChatRoom)
 
-    res.render("chat/createChatroom", {newChatRoomId})
+    res.render("chat/createChatroom", { newChatRoomId })
 
 })
 
-router.post("/createpost", auth, async function(req,res){
-    try{
+router.post("/createpost", auth, async function (req, res) {
+    try {
         console.log(req.user)
         const newPost = new PostModel({
             postContent: req.body.blogContent,
@@ -246,10 +256,10 @@ router.post("/createpost", auth, async function(req,res){
         })
 
         await newPost.save();
-        console.log("Post Created Successfully\n",newPost)
+        console.log("Post Created Successfully\n", newPost)
 
     }
-    catch(error){
+    catch (error) {
         console.log(error)
         res.status(400).send(error)
     }
@@ -262,15 +272,15 @@ router.post("/createpost", auth, async function(req,res){
 // Logout
 router.get("/logout", auth, async function (req, res) {
 
-   
+
     try {
 
         req.user.tokens = req.user.userTokens.filter((currentElement) => {
             return currentElement.token !== req.token
         })
         res.clearCookie("jwt")
-        req.session.destroy(function(error){
-            return error?res.render("error"):null
+        req.session.destroy(function (error) {
+            return error ? res.render("error") : null
         })
         res.clearCookie('connect.sid');
         res.clearCookie('jwt');
